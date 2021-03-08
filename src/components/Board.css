@@ -1,0 +1,9 @@
+/* #board {
+    width: 1000;
+    height: 1000;
+} */
+
+.canvas-wrapper {
+    width: 1000px;
+    height: 500px;
+}
