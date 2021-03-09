@@ -3,8 +3,14 @@ import getSquares from '../utils/getSquares';
 import getPosition from '../utils/getPosition';
 import setPosition from '../utils/setPosition';
 import pics from '../config/pics';
-import squareSize from '../config/squareSize';
-import allowedKeys from '../config/allowedKeys';
+import { singleSquareStyle, boardWrapperStyle } from '../styles/';
+
+const keyParams = {
+    ArrowUp: (posY, posX) => [[posY - 1, posX], [posY - 2, posX]],
+    ArrowRight: (posY, posX) => [[posY, posX + 1], [posY, posX + 2]],
+    ArrowDown: (posY, posX) => [[posY + 1, posX], [posY + 2, posX]],
+    ArrowLeft: (posY, posX) => [[posY, posX - 1], [posY, posX - 2]],
+}
 
 class Board extends React.Component {
     constructor(props) {
@@ -13,107 +19,65 @@ class Board extends React.Component {
         this.state = {
             objects: [],
             positions: {},
-            player: {},
             longest: 0
         };
+
+    }
+
+    updateObjectPosition(id, newPosition) {
+        this.setState(prevState => ({
+            objects: prevState.objects.map(a => {
+                if (a.id !== id) return a;
+                return {
+                    ...a,
+                    position: newPosition
+                };
+            }),
+        }))
+    }
+
+    updatePositionMap(pos, newValue) {
+        this.setState(prevState => ({
+            positions: {
+                ...prevState.positions,
+                [pos]: newValue
+            }
+        }));
+    };
+
+    handleMove(newPlayerCoord, newBoxCoord) {
+        const newPosition = setPosition(...newPlayerCoord);
+        if (!this.state.positions[newPosition]) { return; }
+        if (this.state.positions[newPosition].length > 1) {
+            const box = this.state.positions[newPosition].substring(1);
+            const newBoxPos = setPosition(...newBoxCoord);
+            if (!this.state.positions[newBoxPos] || this.state.positions[newBoxPos].length > 1) { return; }
+            this.updateObjectPosition(box, newBoxPos);
+            this.updatePositionMap(newPosition, this.state.positions[newPosition].substring(0, 1));
+            this.updatePositionMap(newBoxPos, this.state.positions[newBoxPos] + box);
+        }
+        this.updateObjectPosition('player1', newPosition);
     }
 
     componentDidMount() {
-        const [objects, positions, player, longest] = getSquares(this.props.level);
-        this.setState(() => ({ objects, positions, player, longest }));
+        const [objects, positions, longest] = getSquares(this.props.level);
+        this.setState(() => ({ objects, positions, longest }));
     }
 
-    handleMove(e) {
+    handleKeyPress(e) {
         const keyPressed = e.key;
-        if (!allowedKeys.includes(keyPressed)) { return; }
-        const player = this.state.player
+        if (!keyParams[keyPressed]) { return; }
+        const player = this.state.objects.find(x => x.id === 'player1');
         const [posY, posX] = getPosition(player.position);
-        switch (keyPressed) {
-            case 'ArrowUp': {
-                const newPosition = setPosition(posY - 1, posX); 
-                if (!this.state.positions[newPosition]) { return; }
-                if (this.state.positions[newPosition].length > 1) {
-                    const box = this.state.positions[newPosition].find(x => !x.static);
-                    const newBoxPos = setPosition(posY - 2, posX);
-                    if (!this.state.positions[newBoxPos] || this.state.positions[newBoxPos].length > 1) { return; }
-                    console.log('move possible');
-                    this.setState(prevState => ({
-                        objects: prevState.objects.map(a => {
-                            if (a.id !== box.id) return a;
-                            return {
-                                ...a,
-                                position: newBoxPos
-                            };
-                        }),
-                    }))
-                }
-                player.position = newPosition;
-            }
-            break;
-            case 'ArrowDown': {
-                const newPosition = setPosition(posY + 1, posX) 
-                if (!this.state.positions[newPosition]) { return; }
-                if (this.state.positions[newPosition].length > 1) {
-                    const box = this.state.positions[newPosition].find(x => !x.static);
-                    const newBoxPos = setPosition(posY + 2, posX);
-                    if (!this.state.positions[newBoxPos] || this.state.positions[newBoxPos].length > 1) { return; }
-                    console.log('move possible');
-                }
-                player.position = newPosition;
-            }
-            break;
-            case 'ArrowLeft': {
-                const newPosition = setPosition(posY, posX - 1);
-                if (!this.state.positions[newPosition]) { return; }
-                if (this.state.positions[newPosition].length > 1) {
-                    const box = this.state.positions[newPosition].find(x => !x.static);
-                    const newBoxPos = setPosition(posY, posX - 2);
-                    if (!this.state.positions[newBoxPos] || this.state.positions[newBoxPos].length > 1) { return; }
-                    console.log('move possible');
-                }
-                player.position = newPosition;
-            }
-            break;
-            case 'ArrowRight': {
-                const newPosition = setPosition(posY, posX + 1) 
-                if (!this.state.positions[newPosition]) { return; }
-                if (this.state.positions[newPosition].length > 1) {
-                    const box = this.state.positions[newPosition].find(x => !x.static);
-                    const newBoxPos = setPosition(posY, posX + 2);
-                    if (!this.state.positions[newBoxPos] || this.state.positions[newBoxPos].length > 1) { return; }
-                    console.log('move possible');
-                }
-                player.position = newPosition;
-            }
-            break;
-        }
-        
-        this.setState({player});
+        this.handleMove(...keyParams[keyPressed](posY, posX));
     }
 
 
     render() {
-        const styleImg = (pos) => ({
-            position: 'absolute',
-            width: squareSize,
-            height: 'auto',
-            top: getPosition(pos)[0] * squareSize,
-            left: getPosition(pos)[1] * squareSize
-        });
-
-        const styleWrapper = {
-            position: 'relative',
-            width: this.state.longest * squareSize,
-            margin: '50px auto'
-        };
-        return <div className="wrapper" style={styleWrapper} tabIndex="-1" onKeyDown={(e) => this.handleMove(e)}>
+        return <div className="wrapper" style={boardWrapperStyle(this.state.longest)} tabIndex="-1" onKeyDown={(e) => this.handleKeyPress(e)}>
             {this.state.objects.map(x => {
-                return <img style={styleImg(x.position)} src={pics[x.type]} key={x.id} alt="" />;
+                return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;
             })}
-            {this.state.player.position
-                ? <img style={styleImg(this.state.player.position)} src={pics[this.state.player.type]} alt="" />
-                : ''
-            }
         </div>
     }
 }

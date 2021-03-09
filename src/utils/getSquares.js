@@ -1,65 +1,53 @@
+import setPosition from "./setPosition";
+
 const legend = {
     //static
-    '#': (posY, posX) => ({ type: 'brick', static: true, id: `brick${posY}.${posX}`, position: `${posY}.${posX}` }),
-    ' ': (posY, posX) => ({ type: 'path', static: true, id: `path${posY}.${posX}`, position: `${posY}.${posX}` }),
-    '.': (posY, posX) => ({ type: 'goal', static: true, id: `goal${posY}.${posX}`, position: `${posY}.${posX}` }),
+    '#': (pos) => ({ type: 'brick', static: true, id: `brick${pos}`, position: pos }),
+    ' ': (pos) => ({ type: 'path', static: true, id: `path${pos}`, position: pos }),
+    '.': (pos) => ({ type: 'goal', static: true, id: `goal${pos}`, position: pos }),
     //non-static
-    '@': (posY, posX) => ({ type: 'player', static: false, id: `player1`, position: `${posY}.${posX}`, onGoal: false }),
-    '+': (posY, posX) => ({ type: 'player', static: false, id: `player1`, position: `${posY}.${posX}`, onGoal: true }),
-    '$': (posY, posX) => ({ type: 'box', static: false, id: `box${posY}.${posX}`, position: `${posY}.${posX}`, onGoal: false }),
-    '*': (posY, posX) => ({ type: 'box', static: false, id: `box${posY}.${posX}`, position: `${posY}.${posX}`, onGoal: true }),
+    '@': (pos) => ({ type: 'player', static: false, id: `player1`, position: pos, onGoal: false }),
+    '+': (pos) => ({ type: 'player', static: false, id: `player1`, position: pos, onGoal: true }),
+    '$': (pos) => ({ type: 'box', static: false, id: `box${pos}`, position: pos, onGoal: false }),
+    '*': (pos) => ({ type: 'box', static: false, id: `box${pos}`, position: pos, onGoal: true }),
+}
+//build grid
+const positionValues = {
+    brick: () => null,
+    player: (obj) => obj.onGoal ? 'g' : 'p',
+    box: (obj) => obj.onGoal ? `g${obj.id}` : `p${obj.id}`,
+    path: () => 'p',
+    goal: () => 'g' 
+};
+//add tile under non-static objects
+function createExtraObject(obj) {
+    return obj.onGoal
+        ? legend['.'](obj.position)
+        : legend[' '](obj.position);
 }
 
 function getSquares(arr = []) {
     const positions = {};
     const objects = [];
-    let player = {};
     let longest = Number.MIN_SAFE_INTEGER;
 
     arr.forEach((line, iY) => {
         if (line.length > longest) { longest = line.length }
         Array.from(line).forEach((char, iX) => {
-            const pos = `${iY}.${iX}`;
-            const currentSquare = legend[char](iY, iX);
-            if (currentSquare.type === 'brick') {
-                positions[pos] = null;
-                objects.push(currentSquare);
-            } else if (currentSquare.type === 'player') {
-                let secondLayer;
-                if (currentSquare.onGoal) {
-                    secondLayer = legend['.'](iY, iX);
-                } else {
-                    secondLayer = legend[' '](iY, iX);
-                }
-                positions[pos] = [
-                    secondLayer,
-                    // currentSquare
-                ];
-                objects.push(secondLayer);
-                player = currentSquare;
-            } else if (currentSquare.type === 'box') {
-                let secondLayer;
-                if (currentSquare.onGoal) {
-                    secondLayer = legend['.'](iY, iX);
-                } else {
-                    secondLayer = legend[' '](iY, iX);
-                }
-                positions[pos] = [
-                    secondLayer,
-                    currentSquare
-                ];
-                objects.push(secondLayer, currentSquare);
-            } else {
-                positions[pos] = [currentSquare];
-                objects.push(currentSquare);
+            const pos = setPosition(iY, iX);
+            const currentSquare = legend[char](pos);
+            positions[pos] = positionValues[currentSquare.type](currentSquare);
+            if (!currentSquare.static) {
+                const extraObject = createExtraObject(currentSquare);
+                objects.push(extraObject);
             }
+            objects.push(currentSquare);
         });
     });
 
     return [
         objects,
         positions,
-        player,
         longest
     ];
 }
