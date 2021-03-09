@@ -13,16 +13,31 @@ const legend = {
 function getSquares(arr = []) {
     const positions = {};
     const objects = [];
-
+    let player = {};
+    let longest = Number.MIN_SAFE_INTEGER;
 
     arr.forEach((line, iY) => {
+        if (line.length > longest) { longest = line.length }
         Array.from(line).forEach((char, iX) => {
             const pos = `${iY}.${iX}`;
             const currentSquare = legend[char](iY, iX);
             if (currentSquare.type === 'brick') {
                 positions[pos] = null;
                 objects.push(currentSquare);
-            } else if (!currentSquare.static) {
+            } else if (currentSquare.type === 'player') {
+                let secondLayer;
+                if (currentSquare.onGoal) {
+                    secondLayer = legend['.'](iY, iX);
+                } else {
+                    secondLayer = legend[' '](iY, iX);
+                }
+                positions[pos] = [
+                    secondLayer,
+                    // currentSquare
+                ];
+                objects.push(secondLayer);
+                player = currentSquare;
+            } else if (currentSquare.type === 'box') {
                 let secondLayer;
                 if (currentSquare.onGoal) {
                     secondLayer = legend['.'](iY, iX);
@@ -43,7 +58,9 @@ function getSquares(arr = []) {
 
     return [
         objects,
-        positions
+        positions,
+        player,
+        longest
     ];
 }
 
