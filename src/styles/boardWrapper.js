@@ -1,8 +1,9 @@
 import squareSize from '../config/squareSize';
 
-const boardWrapperStyle = (longest) => ({
+const boardWrapperStyle = (width, height = 1) => ({
     position: 'relative',
-    width: longest * squareSize,
+    width: width * squareSize,
+    height: height * squareSize,
     margin: '50px auto'
 });
 

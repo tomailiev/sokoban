@@ -26,15 +26,16 @@ function createExtraObject(obj) {
         : legend[' '](obj.position);
 }
 
-function getSquares(arr = []) {
+function getGameContext(arr = []) {
     const positions = {};
     const objects = [];
     let longest = Number.MIN_SAFE_INTEGER;
 
     arr.forEach((line, iY) => {
         if (line.length > longest) { longest = line.length }
-        Array.from(line).forEach((char, iX) => {
-            const pos = setPosition(iY, iX);
+        const trimmedStart = line.indexOf('#');
+        Array.from(line.trimStart()).forEach((char, iX) => {
+            const pos = setPosition(iY, iX + trimmedStart);
             const currentSquare = legend[char](pos);
             positions[pos] = positionValues[currentSquare.type](currentSquare);
             if (!currentSquare.static) {
@@ -52,4 +53,4 @@ function getSquares(arr = []) {
     ];
 }
 
-export default getSquares;
+export default getGameContext;
