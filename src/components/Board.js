@@ -15,7 +15,7 @@ class Board extends React.Component {
             positions: {},
             longest: 0,
             gameOver: false,
-            level: []
+            level: [],
         };
     }
 
@@ -73,6 +73,7 @@ class Board extends React.Component {
             }
         }
         this.updateObjectPosition('player1', newPosition);
+        this.props.onMove();
         if (isGameOver) { this.handleGameOver() }
     }
 
@@ -84,6 +85,7 @@ class Board extends React.Component {
     handleKeyPress(e) {
         const keyPressed = e.key;
         if (!keyParams[keyPressed] || this.state.gameOver) { return; }
+        this.props.onStarted();
         const player = this.state.objects.find(x => x.id === 'player1');
         const [posY, posX] = getPosition(player.position);
         this.handleMove(...keyParams[keyPressed](posY, posX));

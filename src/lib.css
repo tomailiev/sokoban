@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@400;700&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.10.2/css/all.css');
+html {
+    box-sizing: border-box;
+    margin: 0;
+    font-size: 16px;
+}
+
+* *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat';
+    padding: 1rem 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul>li {
+    display: inline;
+    padding: 0 10px;
+}
+
+nav ul>li>a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+.container-100 {
+    max-width: 100%;
+}
+
+.container-90 {
+    max-width: 90%;
+}
+
+.container-80 {
+    max-width: 80%;
+}
+
+.container-70 {
+    max-width: 70%;
+}
+
+.container-60 {
+    max-width: 60%;
+}
+
+.container-50 {
+    max-width: 50%;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flex-column-container {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.flex-center {
+    justify-content: center;
+}
+
+.flex-between {
+    justify-content: space-between;
+}
+
+.flex-around {
+    justify-content: space-around;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+.flex-stretch {
+    align-items: stretch;
+}
+
+.logo {
+    max-width: 120px;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.centered {
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    background: white;
+}
+
+.flex-50 {
+    flex-basis: 48%;
+}
+
+.flex-30 {
+    flex-basis: 32%;
+}
+
+.flex-20 {
+    flex-basis: 23%;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.card-body {
+    padding: 20px 30px;
+}
+
+.card-footer {
+    min-height: 100px;
+    width: 100%;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.white {
+    color: white;
+}
+
+.button-oval {
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    background: green;
+    padding: 10px 30px;
+}
+
+.button-square {
+    border: none;
+    border-radius: 0.3em;
+    color: white;
+    padding: 10px 30px;
+    background: coral;
+}

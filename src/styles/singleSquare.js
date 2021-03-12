@@ -8,7 +8,9 @@ const singleSquareStyle = (obj) => ({
     top: getPosition(obj.position)[0] * squareSize,
     left: getPosition(obj.position)[1] * squareSize,
     zIndex: obj.static ? 1 : 50,
-    background: obj.type === 'goal' ? 'lightblue' : null
+    background: obj.type === 'goal' ? 'lightblue' : null,
+    transitionProperty: 'left, top',
+    transitionDuration: '50ms'
 });
 
 export default singleSquareStyle;
