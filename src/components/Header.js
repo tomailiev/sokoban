@@ -21,7 +21,7 @@ function Header(props) {
                         <NavLink to="/game">How To</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/game">Player</NavLink>
+                        <NavLink to="/player">Player</NavLink>
                     </li>
                 </ul>
             </nav>
