@@ -47,7 +47,7 @@ function GameScene() {
     }
 
     return (
-        <div className="App">
+        <div>
             {/* <button onClick={() => getLevel(currentLevel)}>Reset level</button> */}
             <Board level={levels[currentLevel]} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} />
             <div className="container container-50 flex-container flex-between">
@@ -58,6 +58,7 @@ function GameScene() {
                 ? <LevelComplete
                     message={gameDone ? 'Congrats! You beat Sokoban.' : 'Level Complete!'}
                     previousLevel={() => getLevel(currentLevel - 1)}
+                    currentLevel={currentLevel}
                     nextLevel={() => getLevel(currentLevel + 1)}
                     done={gameDone} />
                 : null

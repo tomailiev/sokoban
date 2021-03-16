@@ -6,7 +6,7 @@ function LevelComplete(props) {
             <h2>{props.message}</h2>
             {!props.done
                 ? (<div>
-                    <button onClick={props.previousLevel}>Previous Level</button>
+                    <button onClick={props.previousLevel} disabled={!props.currentLevel}>Previous Level</button>
                     <button onClick={props.nextLevel}>Next Level</button>
                 </div>)
                 : ''}

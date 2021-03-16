@@ -1,4 +1,4 @@
-import box from '../assets/box.jpg';
+import box from '../assets/box.png';
 import player from '../assets/player.png';
 import path from '../assets/path.png';
 import goal from '../assets/goal.png';
