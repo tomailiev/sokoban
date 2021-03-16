@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 
 function MovesCounter(props) {
     return (

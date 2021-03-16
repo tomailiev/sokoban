@@ -1,22 +1,41 @@
 import { useState } from "react";
+import { addLevel } from '../services/level.service';
 
 function Player(props) {
 
-    const [level, setLevel] = useState('enter value');
-    const [number, setNumber] = useState(0);
+    const [level, setLevel] = useState('');
+    const [index, setIndex] = useState(0);
 
     function handleSubmit(e) {
         e.preventDefault();
-
         console.log(level.split('\n'));
+        addLevel(index, level.split('\n'))
+            .then(() => console.log('success'))
+            .catch(console.log);
+    }
+
+    const formFieldStyle = {
+        display: 'block',
+        width: 250,
+        height: 'auto',
     }
 
     return (
-        <form onSubmit={(e) => handleSubmit(e)}>
-            <input type="number" value={number} onChange={e => setNumber(e.target.value)} />
-            <textarea value={level} onChange={e => setLevel(e.target.value)} cols="20" rows="20"></textarea>
-            <input type="submit" value="Submit"/>
-        </form>
+        <div className="form-wrapper container container-50 flex-container flex-center">
+            <h2 className="flex-100">Enter your own level!</h2>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div style={formFieldStyle} className="field">
+                    <label htmlFor="level-index"> Level index: </label>
+                    <input id="level-index" type="number" value={index} onChange={e => setIndex(e.target.value)} />
+                </div>
+                <div style={formFieldStyle} className="field">
+                    <label htmlFor="level-legend">Level legend:</label>
+                    <textarea value={level} id="level-legend" onChange={e => setLevel(e.target.value)} cols="30" rows="20"></textarea>
+                </div>
+
+                <input style={formFieldStyle} type="submit" value="Submit" />
+            </form>
+        </div>
     )
 }
 

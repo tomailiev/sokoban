@@ -1,6 +1,6 @@
 import Board from './Board';
 import { useEffect, useState } from 'react';
-import levelService from '../services/level.service';
+import levelService, { getAllOriginalLevels } from '../services/level.service';
 import LevelComplete from './LevelComplete';
 import Timer from './Timer';
 import MovesCounter from './MovesCounter';
@@ -15,12 +15,17 @@ function GameScene() {
     const [moves, setMoves] = useState(0);
 
     useEffect(() => {
-        async function fetchLevels() {
-            const newLevels = await levelService();
-            setLevels(newLevels);
+        function fetchLevels() {
+            // const newLevels = await levelService();
+            getAllOriginalLevels()
+                .then(snapshot => {
+                    let newLevels = [];
+                    snapshot.forEach(x => newLevels.push(x.data().legend));
+                    setLevels(newLevels);
+                });
         }
         fetchLevels()
-    }, [levels]);
+    }, []);
 
     function getLevel(value) {
         setCurrentLevel(value);
