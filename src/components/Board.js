@@ -104,12 +104,12 @@ class Board extends React.Component {
                     onFocus={() => this.setState({ pauseMessage: '' })}
                     onBlur={() => this.setState({ pauseMessage: 'Click here to return to the game' })}
                 >
-                    {this.state.pauseMessage ? <div style={PauseMessageStyle} className="button-oval">{this.state.pauseMessage}</div> : null}
+                    {this.state.pauseMessage && !this.props.controller ? <div style={PauseMessageStyle} className="button-oval">{this.state.pauseMessage}</div> : null}
                     {this.state.objects.map(x => {
                         return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;
                     })}
                 </div>
-                <VisualController onMove={(e) => this.handleKeyPress(e)} />
+                {this.props.controller ? <VisualController onMove={(e) => this.handleKeyPress(e)} /> : null}
             </div>)
     }
 }

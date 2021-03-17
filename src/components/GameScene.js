@@ -14,6 +14,7 @@ function GameScene() {
     const [gameDone, setGameDone] = useState(false);
     const [shouldReset, setShouldReset] = useState(false);
     const [moves, setMoves] = useState(0);
+    const [hasVisualController, setHasVisualController] = useState(false);
 
     useEffect(() => {
         getAllOriginalLevels()
@@ -28,7 +29,6 @@ function GameScene() {
     }, []);
 
     function getLevel(value) {
-        console.log(levels[value]);
         setCurrentLevel(value);
         setIsComplete(false);
         setShouldReset(true);
@@ -54,8 +54,8 @@ function GameScene() {
 
     return (
         <div>
-            <OptionsController changeLevel={getLevel} />
-            <Board level={levels[currentLevel] ? levels[currentLevel][1] : null} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} />
+            <OptionsController levels={levels} current={currentLevel} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
+            <Board level={levels[currentLevel] ? levels[currentLevel][1] : null} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} controller={hasVisualController} />
             <div className="container container-50 flex-container flex-between">
                 <Timer hasStarted={isStarted} shouldReset={shouldReset} />
                 <MovesCounter moves={moves} />

@@ -1,6 +1,8 @@
 import ControllerToggle from "./ControllerToggle";
 import LevelSelect from "./LevelSelect";
 import RedoButton from "./RedoButton";
+import ResetButton from "./ResetButton";
+import ThemeSelect from "./ThemeSelect";
 import UndoButton from "./UndoButton";
 
 function OptionsController(props) {
@@ -10,10 +12,10 @@ function OptionsController(props) {
         <div className="container container-50 flex-container flex-between">
             <UndoButton />
             <RedoButton />
-            <ControllerToggle />
-            <LevelSelect handleLevelChange={props.changeLevel} />
-            <p>5</p>
-            <p>6</p>
+            <ResetButton />
+            <ControllerToggle toggleController={props.toggleController} />
+            <LevelSelect current={props.current} levels={props.levels} handleLevelChange={props.changeLevel} />
+            <ThemeSelect />
         </div>
     );
 }

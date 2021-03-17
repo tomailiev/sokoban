@@ -8,7 +8,7 @@ function Player(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        addLevel(index, level.split('\n'))
+        addLevel(Number(index), level.split('\n'))
             .then(() => console.log('success'))
             .catch(console.log);
     }
