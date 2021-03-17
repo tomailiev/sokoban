@@ -173,6 +173,7 @@ nav ul>li>a {
     color: white;
     background: green;
     padding: 10px 30px;
+    cursor: pointer;
 }
 
 .button-square {
@@ -181,4 +182,5 @@ nav ul>li>a {
     color: white;
     padding: 10px 30px;
     background: coral;
+    cursor: pointer;
 }

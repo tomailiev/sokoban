@@ -1,9 +1,10 @@
 import Board from './Board';
 import { useEffect, useState } from 'react';
-import levelService, { getAllOriginalLevels } from '../services/level.service';
+import { getAllOriginalLevels } from '../services/level.service';
 import LevelComplete from './LevelComplete';
 import Timer from './Timer';
 import MovesCounter from './MovesCounter';
+import OptionsController from './OptionsController';
 
 function GameScene() {
     const [currentLevel, setCurrentLevel] = useState(0);
@@ -15,19 +16,19 @@ function GameScene() {
     const [moves, setMoves] = useState(0);
 
     useEffect(() => {
-        function fetchLevels() {
-            // const newLevels = await levelService();
-            getAllOriginalLevels()
-                .then(snapshot => {
-                    let newLevels = [];
-                    snapshot.forEach(x => newLevels.push(x.data().legend));
-                    setLevels(newLevels);
+        getAllOriginalLevels()
+            .then(snapshot => {
+                let newLevels = [];
+                snapshot.forEach(x => {
+                    const data = x.data();
+                    newLevels.push([data.levelIndex, data.legend]);
                 });
-        }
-        fetchLevels()
+                setLevels(newLevels);
+            });
     }, []);
 
     function getLevel(value) {
+        console.log(levels[value]);
         setCurrentLevel(value);
         setIsComplete(false);
         setShouldReset(true);
@@ -53,8 +54,8 @@ function GameScene() {
 
     return (
         <div>
-            {/* <button onClick={() => getLevel(currentLevel)}>Reset level</button> */}
-            <Board level={levels[currentLevel]} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} />
+            <OptionsController changeLevel={getLevel} />
+            <Board level={levels[currentLevel] ? levels[currentLevel][1] : null} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} />
             <div className="container container-50 flex-container flex-between">
                 <Timer hasStarted={isStarted} shouldReset={shouldReset} />
                 <MovesCounter moves={moves} />

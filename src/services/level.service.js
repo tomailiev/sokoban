@@ -1,14 +1,10 @@
-import firebase from '../utils/firebase';
-import "firebase/firestore";
-
-
-const db = firebase.firestore();
+import { db } from '../utils/firebase';
 const originalLevelsRef = db.collection('originalLevels');
 
 function getAllOriginalLevels() {
     return originalLevelsRef
         .orderBy('levelIndex')
-        .limit(1)
+        .limit(10)
         .get()
 }
 
