@@ -35,7 +35,7 @@ function getGameContext(arr = []) {
         if (line.length > longest) { longest = line.length }
         const trimmedStart = line.indexOf('#');
         Array.from(line.trimStart()).forEach((char, iX) => {
-            const pos = setPosition(iY, iX + trimmedStart);
+            const pos = setPosition(iY, (iX + trimmedStart));
             const currentSquare = legend[char](pos);
             positions[pos] = positionValues[currentSquare.type](currentSquare);
             if (!currentSquare.static) {

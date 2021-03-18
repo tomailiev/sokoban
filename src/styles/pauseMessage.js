@@ -1,4 +1,4 @@
-const PauseMessageStyle = { 
+const pauseMessageStyle = { 
     zIndex: 100, 
     position: 'absolute', 
     left: '50%', 
@@ -6,4 +6,4 @@ const PauseMessageStyle = {
     transform: 'translate(-50%, -50%)'
 }
 
-export default PauseMessageStyle;
+export default pauseMessageStyle;

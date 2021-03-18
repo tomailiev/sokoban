@@ -3,7 +3,7 @@ import getGameContext from '../utils/getGameContext';
 import getPosition from '../utils/getPosition';
 import setPosition from '../utils/setPosition';
 import pics from '../config/pics';
-import { singleSquareStyle, boardWrapperStyle, PauseMessageStyle } from '../styles/';
+import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../styles/';
 import keyParams from '../config/keyParams';
 import VisualController from './VisualController';
 
@@ -104,7 +104,7 @@ class Board extends React.Component {
                     onFocus={() => this.setState({ pauseMessage: '' })}
                     onBlur={() => this.setState({ pauseMessage: 'Click here to return to the game' })}
                 >
-                    {this.state.pauseMessage && !this.props.controller ? <div style={PauseMessageStyle} className="button-oval">{this.state.pauseMessage}</div> : null}
+                    {this.state.pauseMessage && !this.props.controller ? <div style={pauseMessageStyle} className="button-oval">{this.state.pauseMessage}</div> : null}
                     {this.state.objects.map(x => {
                         return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;
                     })}

@@ -186,6 +186,7 @@ nav ul>li>a {
 }
 
 select {
+    position: relative;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -193,5 +194,10 @@ select {
 }
 
 select::after {
+    position: absolute;
     content: 'v';
+    width: 5px;
+    right: 0;
+    top: 5px;
+    color: white;
 }
