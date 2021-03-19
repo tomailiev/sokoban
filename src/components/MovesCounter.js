@@ -1,7 +1,7 @@
 
 function MovesCounter(props) {
     return (
-        <div>{props.moves}</div>
+        <div className="button-square">{props.moves}</div>
     );
 }
 

@@ -14,7 +14,6 @@ class Board extends React.Component {
         this.state = {
             objects: [],
             positions: {},
-            longest: 0,
             gameOver: false,
             level: [],
             pauseMessage: 'Click here to play'
@@ -22,16 +21,17 @@ class Board extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.level && this.props.level !== this.state.level) {
-            const [objects, positions, longest] = getGameContext(this.props.level);
-            this.setState(() => ({ objects, positions, longest, level: this.props.level, gameOver: false }));
+        if (this.props.level && this.props.level.index !== this.state.level.index) {
+            const { objects, positions, } = this.props.level;
+            this.setState(() => ({ objects, positions, level: this.props.level, gameOver: false }));
         }
     }
 
     componentDidUpdate() {
-        if (this.props.level && this.props.level !== this.state.level) {
-            const [objects, positions, longest] = getGameContext(this.props.level);
-            this.setState(() => ({ objects, positions, longest, level: this.props.level, gameOver: false }));
+        if (this.props.level && ((this.props.level.index !== this.state.level.index) || this.props.shouldReset)) {
+            const { objects, positions, } = this.props.level;
+            this.setState(() => ({ objects, positions, level: this.props.level, gameOver: false }));
+            if (this.props.shouldReset) { this.props.hasReset() }
         }
     }
 
@@ -98,7 +98,7 @@ class Board extends React.Component {
             <div>
                 <div
                     className="game-level-wrapper"
-                    style={boardWrapperStyle(this.state.longest, this.props?.level?.length)}
+                    style={boardWrapperStyle(this.props.level?.longest, this.props.level?.legend?.length)}
                     tabIndex="-1"
                     onKeyDown={(e) => this.handleKeyPress(e)}
                     onFocus={() => this.setState({ pauseMessage: '' })}

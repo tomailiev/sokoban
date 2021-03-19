@@ -1,5 +1,6 @@
-import Board from './Board';
 import { useEffect, useState } from 'react';
+import Board from './Board';
+import getGameContext from '../utils/getGameContext';
 import { getAllOriginalLevels } from '../services/level.service';
 import LevelComplete from './LevelComplete';
 import Timer from './Timer';
@@ -18,14 +19,10 @@ function GameScene() {
 
     useEffect(() => {
         getAllOriginalLevels()
-            .then(snapshot => {
-                let newLevels = [];
-                snapshot.forEach(x => {
-                    const data = x.data();
-                    newLevels.push([data.levelIndex, data.legend]);
-                });
+            .then(newLevels => {
                 setLevels(newLevels);
-            });
+            })
+            .catch(console.log);
     }, []);
 
     function getLevel(value) {
@@ -43,6 +40,11 @@ function GameScene() {
         }
     }
 
+    function hasReset() {
+        setShouldReset(true);
+        setMoves(0);
+    }
+
     function hasStarted() {
         setShouldReset(false);
         setIsStarted(true);
@@ -54,8 +56,14 @@ function GameScene() {
 
     return (
         <div>
-            <OptionsController levels={levels} current={currentLevel} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
-            <Board level={levels[currentLevel] ? levels[currentLevel][1] : null} onStarted={hasStarted} onLevelComplete={levelComplete} onMove={hasMoved} controller={hasVisualController} />
+            <OptionsController reset={hasReset} levels={levels} current={currentLevel} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
+            <Board
+                shouldReset={shouldReset}
+                hasReset={() => { setShouldReset(false); setIsStarted(false); }}
+                level={levels[currentLevel] ? Object.assign(levels[currentLevel], getGameContext(levels[currentLevel].legend)) : null}
+                onStarted={hasStarted} onLevelComplete={levelComplete}
+                onMove={hasMoved}
+                controller={hasVisualController} />
             <div className="container container-50 flex-container flex-between">
                 <Timer hasStarted={isStarted} shouldReset={shouldReset} />
                 <MovesCounter moves={moves} />

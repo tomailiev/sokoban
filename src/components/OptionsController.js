@@ -7,12 +7,15 @@ import UndoButton from "./UndoButton";
 
 function OptionsController(props) {
 
+    function handleReset() {
+        props.reset();
+    }
 
     return (
         <div className="container container-50 flex-container flex-between">
             <UndoButton />
             <RedoButton />
-            <ResetButton />
+            <ResetButton reset={handleReset} />
             <ControllerToggle toggleController={props.toggleController} />
             <LevelSelect current={props.current} levels={props.levels} handleLevelChange={props.changeLevel} />
             <ThemeSelect />

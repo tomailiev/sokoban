@@ -6,6 +6,14 @@ function getAllOriginalLevels() {
         .orderBy('levelIndex')
         .limit(10)
         .get()
+        .then(snapshot => {
+            let newLevels = [];
+            snapshot.forEach(x => {
+                const data = x.data();
+                newLevels.push({ index: data.levelIndex, legend: data.legend });
+            });
+            return newLevels;
+        })
 }
 
 function addLevel(levelIndex, legend) {

@@ -30,8 +30,8 @@ function Timer(props) {
 
 
     return (
-        <div>{time}</div>
-    )
+        <div className="button-square">{time}</div>
+    );
 }
 
 export default Timer;

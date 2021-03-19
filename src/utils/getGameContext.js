@@ -46,11 +46,11 @@ function getGameContext(arr = []) {
         });
     });
 
-    return [
+    return {
         objects,
         positions,
         longest
-    ];
+    };
 }
 
 export default getGameContext;
