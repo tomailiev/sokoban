@@ -55,7 +55,7 @@ class Board extends React.Component {
             }
         }));
     };
-
+ 
     handleMove(newPlayerCoord, newBoxCoord) {
         let isGameOver;
         const newPosition = setPosition(...newPlayerCoord);

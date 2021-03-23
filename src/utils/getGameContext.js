@@ -14,17 +14,17 @@ const legend = {
 //build grid
 const positionValues = {
     brick: () => null,
-    player: (obj) => obj.onGoal ? 'g' : 'p',
-    box: (obj) => obj.onGoal ? `g${obj.id}` : `p${obj.id}`,
-    path: () => 'p',
-    goal: () => 'g' 
+    player: (obj) => obj.onGoal ? 'goal' : 'path',
+    box: (obj) => obj.onGoal ? 'goal' : 'path',
+    path: () => 'path',
+    goal: () => 'goal' 
 };
 //add tile under non-static objects
-function createExtraObject(obj) {
-    return obj.onGoal
-        ? legend['.'](obj.position)
-        : legend[' '](obj.position);
-}
+// function createExtraObject(obj) {
+//     return obj.onGoal
+//         ? legend['.'](obj.position)
+//         : legend[' '](obj.position);
+// }
 
 function getGameContext(arr = []) {
     const positions = {};
@@ -39,10 +39,11 @@ function getGameContext(arr = []) {
             const currentSquare = legend[char](pos);
             positions[pos] = positionValues[currentSquare.type](currentSquare);
             if (!currentSquare.static) {
-                const extraObject = createExtraObject(currentSquare);
-                objects.push(extraObject);
+                // const extraObject = createExtraObject(currentSquare);
+                objects.push(currentSquare);
+                // objects.push(extraObject);
             }
-            objects.push(currentSquare);
+            // objects.push(currentSquare);
         });
     });
 

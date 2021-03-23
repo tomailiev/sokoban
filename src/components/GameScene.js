@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Board from './Board';
+import Board from './Board2';
 import getGameContext from '../utils/getGameContext';
 import { getSingleLevel } from '../services/level.service';
 import LevelComplete from './LevelComplete';
