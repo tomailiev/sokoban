@@ -17,7 +17,7 @@ function OptionsController(props) {
             <RedoButton />
             <ResetButton reset={handleReset} />
             <ControllerToggle toggleController={props.toggleController} />
-            <LevelSelect current={props.current} levels={props.levels} handleLevelChange={props.changeLevel} />
+            <LevelSelect current={props.current} handleLevelChange={props.changeLevel} />
             <ThemeSelect />
         </div>
     );

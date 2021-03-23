@@ -32,6 +32,21 @@ function getAllOriginalLevels(limit = 10) {
         })
 }
 
+function getSingleLevel(query) {
+    return originalLevelsRef
+        .where('levelIndex', '==', query)
+        .get()
+        .then(snapshot =>  {
+            const level = {};
+            snapshot.forEach(x => {
+                const data = x.data();
+                level.index = data.levelIndex;
+                level.legend = data.legend;
+            });
+            return level;
+        });
+}
+
 function addLevel(levelIndex, legend) {
     return originalLevelsRef.doc().set({
         levelIndex,
@@ -40,4 +55,4 @@ function addLevel(levelIndex, legend) {
 }
 
 
-export { addLevel, getAllOriginalLevels, getPromoLevels };
+export { addLevel, getAllOriginalLevels, getPromoLevels, getSingleLevel };
