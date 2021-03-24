@@ -13,7 +13,7 @@ function OptionsController(props) {
 
     return (
         <div className="container container-50 flex-container flex-between">
-            <UndoButton />
+            <UndoButton undo={props.undo} />
             <RedoButton />
             <ResetButton reset={handleReset} />
             <ControllerToggle toggleController={props.toggleController} />

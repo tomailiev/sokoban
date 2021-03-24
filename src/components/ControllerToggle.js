@@ -1,6 +1,15 @@
-const ControllerToggle = (props) => {
+import { useContext } from "react";
+import GameContext from "../contexts/GameContext";
+
+const ControllerToggle = () => {
+    const { setGameState } = useContext(GameContext);
+
+    function toggleVisualController() {
+        setGameState(prev => ({ ...prev, hasVisualController: !prev.hasVisualController }));
+    }
+
     return (
-        <button className="button-square" onClick={props.toggleController}><i className="fas fa-gamepad"></i></button>
+        <button className="button-square" onClick={toggleVisualController}><i className="fas fa-gamepad"></i></button>
     );
 };
 

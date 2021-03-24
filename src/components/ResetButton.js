@@ -1,6 +1,15 @@
-const ResetButton = (props) => {
+import { useContext } from "react";
+import GameContext from "../contexts/GameContext";
+
+const ResetButton = () => {
+    const { setGameState } = useContext(GameContext);
+
+    function handleReset() {
+        setGameState(prev => ({...prev, shouldReset: true, moves: 0}));
+    }
+
     return (
-        <button onClick={props.reset} className="button-square"><i className="fas fa-fast-backward"></i></button>
+        <button onClick={handleReset} className="button-square"><i className="fas fa-fast-backward"></i></button>
     );
 };
 

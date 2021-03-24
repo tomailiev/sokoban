@@ -8,10 +8,8 @@ import VisualController from './VisualController';
 
 function Board(props) {
     const [objects, setObjects] = useState([]);
-    // const [undoObjects, setUndoObjects] = useState([]);
     const [gameOver, setGameOver] = useState(false);
     const [pauseMessage, setPauseMessage] = useState('Click here to play');
-
 
     useEffect(() => {
         if (props.level) {
@@ -22,8 +20,6 @@ function Board(props) {
     }, [props.level, props.shouldReset]);
 
     function updatePositions(object = {}, newPosition = []) {
-        // setUndoObjects(prev => prev.unshift(objects));
-        // if (undoObjects.length > 3) { undoObjects.pop(); }
         setObjects(prev => (prev.map(x => {
             if (x.id !== object.id) return x;
             return {
@@ -77,7 +73,7 @@ function Board(props) {
             >
                 {pauseMessage && !props.controller ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(props.level.positions).map(([key, val]) => {
-                    return <img style={singleSquareStyle({ position: key })} src={val ? pics[val] : pics['brick']} key={key} alt="" />;
+                    return <img style={singleSquareStyle({ position: key, type: val })} src={val ? pics[val] : pics['brick']} key={key} alt="" />;
                 })}
                 {objects ? objects.map(x => {
                     return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;

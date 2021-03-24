@@ -6,8 +6,19 @@ import LevelComplete from './LevelComplete';
 import Timer from './Timer';
 import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
+import GameContext from '../contexts/GameContext';
+const initialState = {
+    level: {},
+    isStarted: false,
+    isComplete: false,
+    isGameDone: false,
+    shouldReset: false,
+    hasVisualController: false,
+    moves: 0
+}
 
 function GameScene() {
+    const [gameState, setGameState] = useState(initialState);
     const [level, setLevel] = useState({});
     const [isStarted, setIsStarted] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
@@ -15,6 +26,7 @@ function GameScene() {
     const [shouldReset, setShouldReset] = useState(false);
     const [moves, setMoves] = useState(0);
     const [hasVisualController, setHasVisualController] = useState(false);
+    const [undo, setUndo] = useState(false);
 
     function getLevel(value) {
         getSingleLevel(value)
@@ -50,14 +62,16 @@ function GameScene() {
     }
 
     return (
-        <div>
-            <OptionsController reset={hasReset} current={level.index} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
+        <GameContext.Provider value={{ gameState, setGameState }}>
+            <OptionsController undo={() => setUndo(true)} reset={hasReset} current={level.index} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
             <Board
                 shouldReset={shouldReset}
                 hasReset={() => { setShouldReset(false); setIsStarted(false); }}
                 level={level ? Object.assign(level, getGameContext(level.legend)) : null}
                 onStarted={hasStarted} onLevelComplete={levelComplete}
                 onMove={hasMoved}
+                undo={undo}
+                undoDone={() => setUndo(false)}
                 controller={hasVisualController} />
             <div className="container container-50 flex-container flex-between">
                 <Timer hasStarted={isStarted} shouldReset={shouldReset} />
@@ -72,7 +86,7 @@ function GameScene() {
                     done={gameDone} />
                 : null
             }
-        </div>
+        </GameContext.Provider>
     );
 }
 

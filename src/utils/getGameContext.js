@@ -19,12 +19,6 @@ const positionValues = {
     path: () => 'path',
     goal: () => 'goal' 
 };
-//add tile under non-static objects
-// function createExtraObject(obj) {
-//     return obj.onGoal
-//         ? legend['.'](obj.position)
-//         : legend[' '](obj.position);
-// }
 
 function getGameContext(arr = []) {
     const positions = {};
@@ -39,11 +33,8 @@ function getGameContext(arr = []) {
             const currentSquare = legend[char](pos);
             positions[pos] = positionValues[currentSquare.type](currentSquare);
             if (!currentSquare.static) {
-                // const extraObject = createExtraObject(currentSquare);
                 objects.push(currentSquare);
-                // objects.push(extraObject);
             }
-            // objects.push(currentSquare);
         });
     });
 
