@@ -1,23 +1,31 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import keyParams from '../config/keyParams';
 import getPosition from "../utils/getPosition";
 import setPosition from "../utils/setPosition";
 import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../styles'
 import pics from '../config/pics';
 import VisualController from './VisualController';
+import GameContext from "../contexts/GameContext";
 
-function Board(props) {
+function Board() {
+
+    const { gameState, setGameState } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
-    const [gameOver, setGameOver] = useState(false);
     const [pauseMessage, setPauseMessage] = useState('Click here to play');
 
+    const updateGameState = useCallback((propsToUpdate = {}) => {
+        setGameState(prev => ({ ...prev, ...propsToUpdate }));
+    }, [setGameState]);
+
     useEffect(() => {
-        if (props.level) {
-            setGameOver(false);
-            setObjects(props.level.objects);
+        if (gameState.level) {
+            updateGameState({ isComplete: false });
+            setObjects(gameState.level.objects);
         }
-        if (props.shouldReset) { props.hasReset() }
-    }, [props.level, props.shouldReset]);
+        if (gameState.shouldReset) {
+            updateGameState({ shouldReset: false, isStarted: false });
+        }
+    }, [gameState.level, gameState.shouldReset, updateGameState]);
 
     function updatePositions(object = {}, newPosition = []) {
         setObjects(prev => (prev.map(x => {
@@ -25,61 +33,65 @@ function Board(props) {
             return {
                 ...x,
                 position: newPosition,
-                onGoal: props.level.positions[newPosition] === 'goal'
+                onGoal: gameState.level.positions[newPosition] === 'goal'
             };
         })));
     }
 
+
     function handleMove(player, newPlayerCoord, newBoxCoord) {
         let isGameOver = false;
         const newPlayerPosition = setPosition(...newPlayerCoord);
-        if (!props.level.positions[newPlayerPosition]) { return; }
+        if (!gameState.level.positions[newPlayerPosition]) { return; }
         if (objects.find(x => x.position === newPlayerPosition)) {
             const newBoxPosition = setPosition(...newBoxCoord);
             const box = objects.find(x => x.position === newPlayerPosition);
-            if (!props.level.positions[newBoxPosition] || objects.find(x => x.position === newBoxPosition)) { return; }
+            if (!gameState.level.positions[newBoxPosition] || objects.find(x => x.position === newBoxPosition)) { return; }
             updatePositions(box, newBoxPosition);
-            if (props.level.positions[newBoxPosition] === 'goal') {
+            if (gameState.level.positions[newBoxPosition] === 'goal') {
                 isGameOver = !(objects.filter(x => x.id !== 'player1' && x.id !== box.id && !x.onGoal)).length;
             }
         }
         updatePositions(player, newPlayerPosition);
-        props.onMove();
-        if (isGameOver) { handleGameOver() }
+        updateGameState({ moves: gameState.moves + 1 });
+        if (isGameOver) {
+            updateGameState(
+                gameState.level.index === 50
+                    ? { isComplete: true, isStarted: false, isGameDone: true, }
+                    : { isComplete: true, isStarted: false, }
+            );
+        }
     }
 
     function handleKeyPress(e) {
         const keyPressed = e.key;
-        if (!keyParams[keyPressed] || gameOver) { return; }
-        props.onStarted();
+        if (!keyParams[keyPressed] || gameState.isComplete) { return; }
+        if (!gameState.isStarted) {
+            updateGameState({ shouldReset: false, isStarted: true });
+        }
         const player = objects.find(x => x.id === 'player1');
         handleMove(player, ...keyParams[keyPressed](...getPosition(player.position)));
-    }
-
-    function handleGameOver() {
-        setGameOver(true);
-        props.onLevelComplete();
     }
 
     return (
         <div>
             <div
                 className="game-level-wrapper"
-                style={boardWrapperStyle(props.level.longest, props.level.legend?.length)}
+                style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length)}
                 tabIndex="-1"
                 onKeyDown={(e) => handleKeyPress(e)}
                 onFocus={() => setPauseMessage('')}
                 onBlur={() => setPauseMessage('Click here to return to the game')}
             >
-                {pauseMessage && !props.controller ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
-                {Object.entries(props.level.positions).map(([key, val]) => {
+                {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
+                {Object.entries(gameState.level.positions).map(([key, val]) => {
                     return <img style={singleSquareStyle({ position: key, type: val })} src={val ? pics[val] : pics['brick']} key={key} alt="" />;
                 })}
-                {objects ? objects.map(x => {
+                {objects.map(x => {
                     return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;
-                }) : null}
+                })}
             </div>
-            {props.controller ? <VisualController onMove={(e) => handleKeyPress(e)} /> : null}
+            {gameState.hasVisualController ? <VisualController onMove={(e) => handleKeyPress(e)} /> : null}
         </div>
     );
 }

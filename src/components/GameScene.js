@@ -7,83 +7,45 @@ import Timer from './Timer';
 import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
 import GameContext from '../contexts/GameContext';
+
 const initialState = {
-    level: {},
+    level: { positions: {}, objects: [] },
     isStarted: false,
     isComplete: false,
     isGameDone: false,
     shouldReset: false,
+    isLevelComplete: false,
     hasVisualController: false,
     moves: 0
 }
 
 function GameScene() {
-    const [gameState, setGameState] = useState(initialState);
-    const [level, setLevel] = useState({});
-    const [isStarted, setIsStarted] = useState(false);
-    const [isComplete, setIsComplete] = useState(false);
-    const [gameDone, setGameDone] = useState(false);
-    const [shouldReset, setShouldReset] = useState(false);
-    const [moves, setMoves] = useState(0);
-    const [hasVisualController, setHasVisualController] = useState(false);
-    const [undo, setUndo] = useState(false);
+    const [gameState, setGameState] = useState({ ...initialState, getLevel });
 
     function getLevel(value) {
-        getSingleLevel(value)
-            .then(l => {
-                setLevel(l);
-                setIsComplete(false);
-                setShouldReset(true);
-                setMoves(0);
+        return getSingleLevel(value)
+            .then(level => {
+                setGameState(prev => ({
+                    ...prev,
+                    level: Object.assign(level, getGameContext(level.legend)),
+                    isComplete: false,
+                    shouldReset: true,
+                    moves: 0
+                }));
             })
             .catch(console.error);
     }
 
-    function levelComplete() {
-        setIsComplete(true);
-        setIsStarted(false);
-        if (level.index === 50) {
-            setGameDone(true);
-        }
-    }
-
-    function hasReset() {
-        setShouldReset(true);
-        setMoves(0);
-    }
-
-    function hasStarted() {
-        setShouldReset(false);
-        setIsStarted(true);
-    }
-
-    function hasMoved() {
-        setMoves(moves + 1);
-    }
-
     return (
         <GameContext.Provider value={{ gameState, setGameState }}>
-            <OptionsController undo={() => setUndo(true)} reset={hasReset} current={level.index} changeLevel={getLevel} toggleController={() => setHasVisualController(!hasVisualController)} />
-            <Board
-                shouldReset={shouldReset}
-                hasReset={() => { setShouldReset(false); setIsStarted(false); }}
-                level={level ? Object.assign(level, getGameContext(level.legend)) : null}
-                onStarted={hasStarted} onLevelComplete={levelComplete}
-                onMove={hasMoved}
-                undo={undo}
-                undoDone={() => setUndo(false)}
-                controller={hasVisualController} />
+            <OptionsController />
+            <Board />
             <div className="container container-50 flex-container flex-between">
-                <Timer hasStarted={isStarted} shouldReset={shouldReset} />
-                <MovesCounter moves={moves} />
+                <Timer />
+                <MovesCounter />
             </div>
-            {isComplete
-                ? <LevelComplete
-                    message={gameDone ? 'Congrats! You beat Sokoban.' : 'Level Complete!'}
-                    previousLevel={() => getLevel(level.index - 1)}
-                    currentLevel={level.index - 1}
-                    nextLevel={() => getLevel(level.index + 1)}
-                    done={gameDone} />
+            {gameState.isComplete
+                ? <LevelComplete />
                 : null
             }
         </GameContext.Provider>

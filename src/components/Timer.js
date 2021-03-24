@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import GameContext from "../contexts/GameContext";
 
-function Timer(props) {
+function Timer() {
 
     const [time, setTime] = useState('0:00');
+    const { gameState } = useContext(GameContext);
 
     useEffect(() => {
-        if (props.shouldReset) {
+        if (gameState.shouldReset) {
             setTime('0:00');
         }
         let interval;
-        if (props.hasStarted) {
+        if (gameState.isStarted) {
             interval = setInterval(() => {
                 let [mins, secs] = time.split(':').map(Number);
                 if (secs === 59) {
@@ -26,7 +28,7 @@ function Timer(props) {
         }
 
         return () => clearInterval(interval);
-    }, [props.shouldReset, props.hasStarted, time]);
+    }, [gameState.shouldReset, gameState.isStarted, time]);
 
 
     return (
