@@ -11,7 +11,7 @@ function OptionsController(props) {
     return (
         <div className="container container-50 flex-container flex-between">
             <UndoButton />
-            <RedoButton />
+            {/* <RedoButton /> */}
             <ResetButton />
             <ControllerToggle />
             <LevelSelect />

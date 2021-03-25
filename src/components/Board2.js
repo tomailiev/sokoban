@@ -12,6 +12,8 @@ function Board() {
     const { gameState, setGameState } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
     const [pauseMessage, setPauseMessage] = useState('Click here to play');
+    const [undone, setUndone] = useState([]);
+    const [redone, setRedone] = useState([]);
 
     const updateGameState = useCallback((propsToUpdate = {}) => {
         setGameState(prev => ({ ...prev, ...propsToUpdate }));
@@ -25,9 +27,22 @@ function Board() {
         if (gameState.shouldReset) {
             updateGameState({ shouldReset: false, isStarted: false });
         }
+
     }, [gameState.level, gameState.shouldReset, updateGameState]);
 
+    useEffect(() => {
+        if (gameState.undo) {
+            updateGameState({ undo: false });
+            if (undone.length) {
+                setObjects(undone);
+                setUndone([]);
+                updateGameState({ moves: gameState.moves + 1 });
+            }
+        }
+    }, [gameState.undo, undone, updateGameState, gameState.moves]);
+    
     function updatePositions(object = {}, newPosition = []) {
+        setUndone(objects)
         setObjects(prev => (prev.map(x => {
             if (x.id !== object.id) return x;
             return {
@@ -37,7 +52,6 @@ function Board() {
             };
         })));
     }
-
 
     function handleMove(player, newPlayerCoord, newBoxCoord) {
         let isGameOver = false;

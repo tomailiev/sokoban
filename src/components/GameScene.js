@@ -14,9 +14,10 @@ const initialState = {
     isComplete: false,
     isGameDone: false,
     shouldReset: false,
-    isLevelComplete: false,
     hasVisualController: false,
-    moves: 0
+    undo: false,
+    redo: false,
+    moves: 0,
 }
 
 function GameScene() {
