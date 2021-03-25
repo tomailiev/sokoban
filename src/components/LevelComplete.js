@@ -1,14 +1,20 @@
 import { useContext } from "react";
 import GameContext from "../contexts/GameContext";
+import UserContext from "../contexts/UserContext";
 
 function LevelComplete(props) {
 
     const { gameState } = useContext(GameContext);
+    const { user, setUser } = useContext(UserContext);
+
 
     const levelCompleteMessage = 'Level Complete!';
     const gameCompleteMessage = 'Congrats! You beat Sokoban.';
 
     function changeLevel(num) {
+        if (user.bestLevel < num) {
+            setUser(prev => ({ ...prev, bestLevel: num }));
+        }
         gameState.getLevel(num);
     }
 

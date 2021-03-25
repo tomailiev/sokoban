@@ -1,29 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import GameContext from "../contexts/GameContext";
-import getUser from "../services/user.service";
+import UserContext from "../contexts/UserContext";
 
 const LevelSelect = (props) => {
 
-    const [levels, setLevels] = useState(0);
     const { gameState } = useContext(GameContext);
+    const { user } = useContext(UserContext);
 
     function changeLevel(num) {
         gameState.getLevel(num);
     }
 
     useEffect(() => {
-        getUser()
-            .then(u => {
-                setLevels(u.bestLevel);
-                changeLevel(u.bestLevel);
-            })
-            .catch(console.error);
-    }, []);
+        changeLevel(user.bestLevel);
+    }, [user.bestLevel]);
 
     return (
-        <select className="button-square" value={props.current || gameState.level?.index || 'Select level'} onChange={(e) => changeLevel(Number(e.target.value))}>
+        <select className="button-square" value={gameState.level?.index || 'Select level'} onChange={(e) => changeLevel(Number(e.target.value))}>
             <option value="Select level" disabled>Level...</option>
-            {Array.from(Array(levels)).map((_x, i) => <option key={i + 1} value={i + 1}> Level {i + 1}</option>)}
+            {Array.from(Array(user?.bestLevel)).map((_x, i) => <option key={i + 1} value={i + 1}> Level {i + 1}</option>)}
         </select>
     );
 };

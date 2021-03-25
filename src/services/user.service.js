@@ -2,7 +2,7 @@ const user = {
     uid: 1234,
     name: 'Joe',
     email: 'a@a.com',
-    bestLevel: 3,
+    bestLevel: 1,
 }
 
 function getUser() {
