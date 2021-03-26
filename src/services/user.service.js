@@ -1,12 +1,16 @@
-// const user = {
-//     uid: 1234,
-//     name: 'Joe',
-//     email: 'a@a.com',
-//     bestLevel: 1,
-// }
-const user = null;
-function getUser() {
-    return Promise.resolve(user);
+import { db } from '../utils/firebase';
+const usersRef = db.collection('users');
+
+function createUser(id) {
+    return usersRef.doc(id).set({
+        bestLevel: 1
+    });
 }
 
-export default getUser;
+function updateUser(id, level) {
+    return usersRef.doc(id).update({
+        bestLevel: level
+    });
+}
+
+export {createUser, updateUser};

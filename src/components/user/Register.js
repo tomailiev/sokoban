@@ -1,19 +1,19 @@
 import { auth } from '../../utils/firebase';
+import { createUser } from '../../services/user.service';
 
-function Register() {
+function Register({ history }) {
 
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
         auth.createUserWithEmailAndPassword(e.target.email.value, e.target.password.value)
             .then((userCredential) => {
-                // Signed in 
-                var user = userCredential.user;
-                // ...
+                return createUser(userCredential.user.uid);
             })
+            .then(() => history.push('/game'))
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                // ..
+                console.log(errorCode, errorMessage);
             });
     }
 

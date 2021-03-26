@@ -1,14 +1,12 @@
 import { auth } from '../../utils/firebase';
 
-function Login() {
+function Login({ history }) {
 
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
         auth.signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
             .then((userCredential) => {
-                // Signed in
-                var user = userCredential.user;
-                // ...
+                history.push('/game');
             })
             .catch((error) => {
                 var errorCode = error.code;

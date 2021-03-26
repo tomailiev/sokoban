@@ -6,11 +6,12 @@ import Home from './components/Home';
 import GameScene from './components/game/GameScene';
 import Player from './components/user/Player';
 import { useEffect, useState } from 'react';
-import getUser from './services/user.service';
+// import getUser from './services/user.service';
 import UserContext from './contexts/UserContext';
 import Register from './components/user/Register';
 import { auth } from './utils/firebase';
 import Login from './components/user/Login';
+import Logout from './components/user/Logout';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((u) => {
       if (u) {
-        console.log(u.uid);
+        //TODO MERGE USER WITH EXTRA PROPS
         setUser({
           name: u.displayName,
           email: u.email,
@@ -43,7 +44,10 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/game" component={GameScene} />
-            <Route path="/player" component={user.email ? Player : Login} />
+            <Route path="/player" component={Player} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </Switch>
         </main>
       </UserContext.Provider>

@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext';
 
-function Header(props) {
+function Header() {
 
+    const { user, setUser } = useContext(UserContext)
 
     return (
         <header>
@@ -20,9 +23,24 @@ function Header(props) {
                     <li>
                         <NavLink to="/game">How To</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/player">Player</NavLink>
-                    </li>
+                    {user.id
+                        ? <>
+                            <li>
+                                <NavLink to="/player">Player</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/logout">Logout</NavLink>
+                            </li>
+                        </>
+                        : <>
+                        <li>
+                            <NavLink to="/login">Login</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/register">Register</NavLink>
+                        </li>
+                    </>
+                    }
                 </ul>
             </nav>
         </header>

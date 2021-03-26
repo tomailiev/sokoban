@@ -1,10 +1,10 @@
 import { auth } from "../../utils/firebase";
 
-const Logout = () => {
+const Logout = ({ history }) => {
 
     function handleLogout() {
         auth.signOut().then(() => {
-            console.log('signed out');
+            history.push('/');
         }).catch((error) => {
             console.error(error)
         });
