@@ -35,7 +35,7 @@ function Player(props) {
                 <input style={formFieldStyle} type="submit" value="Submit" />
             </form>
         </div>
-    )
+    );
 }
 
 export default Player;

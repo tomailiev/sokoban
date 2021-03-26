@@ -1,6 +1,6 @@
 import ControllerToggle from "./ControllerToggle";
 import LevelSelect from "./LevelSelect";
-import RedoButton from "./RedoButton";
+// import RedoButton from "./RedoButton";
 import ResetButton from "./ResetButton";
 import ThemeSelect from "./ThemeSelect";
 import UndoButton from "./UndoButton";

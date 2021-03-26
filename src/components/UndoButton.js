@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import GameContext from "../contexts/GameContext";
 
-const UndoButton = (props) => {
+const UndoButton = () => {
 
-    const { gameState, setGameState } = useContext(GameContext);
+    const { setGameState } = useContext(GameContext);
 
     return (
         <button className="button-square" onClick={() => setGameState(prev => ({ ...prev, undo: true }))}><i className="fas fa-undo"></i></button>

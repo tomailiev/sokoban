@@ -18,9 +18,10 @@ const initialState = {
     undo: false,
     redo: false,
     moves: 0,
+    theme: 'defaultPics'
 }
 
-function GameScene() {
+function GameScene({ match }) {
     const [gameState, setGameState] = useState({ ...initialState, getLevel });
 
     function getLevel(value) {

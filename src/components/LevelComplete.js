@@ -14,8 +14,9 @@ function LevelComplete(props) {
     function changeLevel(num) {
         if (user.bestLevel < num) {
             setUser(prev => ({ ...prev, bestLevel: num }));
+        } else {
+            gameState.getLevel(num);
         }
-        gameState.getLevel(num);
     }
 
     return (
@@ -23,8 +24,8 @@ function LevelComplete(props) {
             <h2>{gameState.isGameDone ? gameCompleteMessage : levelCompleteMessage}</h2>
             {!gameState.isGameDone
                 ? (<div>
-                    <button onClick={() => changeLevel(gameState.level.index - 1)} disabled={!(gameState.level.index - 1)}>Previous Level</button>
-                    <button onClick={() => changeLevel(gameState.level.index + 1)}>Next Level</button>
+                    <button className="button-square" onClick={() => changeLevel(gameState.level.index - 1)} disabled={!(gameState.level.index - 1)}>Previous Level</button>
+                    <button className="button-square" onClick={() => changeLevel(gameState.level.index + 1)}>Next Level</button>
                 </div>)
                 : ''}
         </div>

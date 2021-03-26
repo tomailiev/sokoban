@@ -3,7 +3,7 @@ import keyParams from '../config/keyParams';
 import getPosition from "../utils/getPosition";
 import setPosition from "../utils/setPosition";
 import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../styles'
-import pics from '../config/pics';
+import * as themes from '../themes';
 import VisualController from './VisualController';
 import GameContext from "../contexts/GameContext";
 
@@ -13,7 +13,7 @@ function Board() {
     const [objects, setObjects] = useState([]);
     const [pauseMessage, setPauseMessage] = useState('Click here to play');
     const [undone, setUndone] = useState([]);
-    const [redone, setRedone] = useState([]);
+    // const [redone, setRedone] = useState([]);
 
     const updateGameState = useCallback((propsToUpdate = {}) => {
         setGameState(prev => ({ ...prev, ...propsToUpdate }));
@@ -40,7 +40,7 @@ function Board() {
             }
         }
     }, [gameState.undo, undone, updateGameState, gameState.moves]);
-    
+
     function updatePositions(object = {}, newPosition = []) {
         setUndone(objects)
         setObjects(prev => (prev.map(x => {
@@ -99,13 +99,13 @@ function Board() {
             >
                 {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {
-                    return <img style={singleSquareStyle({ position: key, type: val })} src={val ? pics[val] : pics['brick']} key={key} alt="" />;
+                    return <img style={singleSquareStyle({ position: key, type: val })} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
                 })}
                 {objects.map(x => {
-                    return <img style={singleSquareStyle(x)} src={pics[x.type]} key={x.id} alt="" />;
+                    return <img style={singleSquareStyle(x)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
             </div>
-            {gameState.hasVisualController ? <VisualController onMove={(e) => handleKeyPress(e)} /> : null}
+            {gameState.hasVisualController ? <VisualController onMove={handleKeyPress} /> : null}
         </div>
     );
 }
