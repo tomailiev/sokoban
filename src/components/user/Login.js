@@ -6,7 +6,7 @@ function Login({ history }) {
         e.preventDefault();
         auth.signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
             .then((userCredential) => {
-                history.push('/game');
+                history.push('/');
             })
             .catch((error) => {
                 var errorCode = error.code;

@@ -1,17 +1,20 @@
 // import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Header from './components/shared/Header';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
-import GameScene from './components/game/GameScene';
+// import GameScene from './components/game/GameScene';
 import Player from './components/user/Player';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 // import getUser from './services/user.service';
 import UserContext from './contexts/UserContext';
 import Register from './components/user/Register';
 import { auth } from './utils/firebase';
 import Login from './components/user/Login';
 import Logout from './components/user/Logout';
+import { getUserData } from './services/user.service';
+const GameScene = React.lazy(() => import('./components/game/GameScene'));
 
 function App() {
 
@@ -21,16 +24,19 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((u) => {
       if (u) {
-        //TODO MERGE USER WITH EXTRA PROPS
-        setUser({
-          name: u.displayName,
-          email: u.email,
-          photoUrl: u.photoURL,
-          id: u.uid,
-          bestLevel: 1
-        });
+        getUserData(u.uid)
+          .then(userData => {
+            setUser({
+              name: u.displayName,
+              email: u.email,
+              photoUrl: u.photoURL,
+              id: u.uid,
+              bestLevel: userData.bestLevel,
+              scores: userData.scores
+            });
+          })
+          .catch(console.log);
       } else {
-        console.log('out');
         setUser({ bestLevel: 1 });
       }
     });
@@ -41,14 +47,16 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <main>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/game" component={GameScene} />
-            <Route path="/player" component={Player} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-          </Switch>
+          <Suspense fallback="<div>Loading...</div>">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/game" component={GameScene} />
+              <Route path="/player" component={Player} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+            </Switch>
+          </Suspense>
         </main>
       </UserContext.Provider>
     </div>

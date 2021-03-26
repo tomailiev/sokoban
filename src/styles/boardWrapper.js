@@ -4,7 +4,8 @@ const boardWrapperStyle = (width = 1, height = 1) => ({
     position: 'relative',
     width: width * squareSize,
     height: height * squareSize,
-    margin: '50px auto'
+    margin: '50px auto',
+    userSelect: 'none'
 });
 
 export default boardWrapperStyle;

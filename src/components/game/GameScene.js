@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Board from './Board2';
 import getGameContext from '../../utils/getGameContext';
 import { getSingleLevel } from '../../services/level.service';
@@ -7,6 +7,7 @@ import Timer from './Timer';
 import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
 import GameContext from '../../contexts/GameContext';
+import UserContext from '../../contexts/UserContext';
 
 const initialState = {
     level: { positions: {}, objects: [] },
@@ -23,6 +24,11 @@ const initialState = {
 
 function GameScene() {
     const [gameState, setGameState] = useState({ ...initialState, getLevel });
+    const {user} = useContext(UserContext);
+
+    useEffect(() => {
+        getLevel(user.bestLevel);
+    }, [user.bestLevel]);
 
     function getLevel(value) {
         return getSingleLevel(value)

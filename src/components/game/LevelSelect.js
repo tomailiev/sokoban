@@ -11,9 +11,10 @@ const LevelSelect = (props) => {
         gameState.getLevel(num);
     }
 
-    useEffect(() => {
-        changeLevel(user.bestLevel);
-    }, [user.bestLevel]);
+    // useEffect(() => {
+    //     console.log(user.bestLevel);
+    //     changeLevel(user.bestLevel);
+    // }, [user.bestLevel]);
 
     return (
         <select className="button-square" value={gameState.level?.index || 'Select level'} onChange={(e) => changeLevel(Number(e.target.value))}>

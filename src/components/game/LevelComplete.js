@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 import UserContext from "../../contexts/UserContext";
+import { updateUser } from "../../services/user.service";
 
 function LevelComplete(props) {
 
@@ -15,6 +16,9 @@ function LevelComplete(props) {
         if (user.bestLevel < num) {
             // setUser(prev => ({ ...prev, bestLevel: num }));
             //TODO UPDATE USER BEST LEVEL
+            updateUser(user.id, { bestLevel: num })
+                .then(() => setUser(prev => ({ ...prev, bestLevel: num })))
+                .catch(console.error);
         } else {
             gameState.getLevel(num);
         }
