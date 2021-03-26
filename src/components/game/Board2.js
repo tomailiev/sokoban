@@ -1,11 +1,11 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import keyParams from '../config/keyParams';
-import getPosition from "../utils/getPosition";
-import setPosition from "../utils/setPosition";
-import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../styles'
-import * as themes from '../themes';
+import keyParams from '../../config/keyParams';
+import getPosition from "../../utils/getPosition";
+import setPosition from "../../utils/setPosition";
+import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../../styles'
+import * as themes from '../../themes';
 import VisualController from './VisualController';
-import GameContext from "../contexts/GameContext";
+import GameContext from "../../contexts/GameContext";
 
 function Board() {
 
@@ -102,7 +102,7 @@ function Board() {
                     return <img style={singleSquareStyle(x)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
             </div>
-            {gameState.hasVisualController ? <VisualController onMove={handleKeyPress} /> : null}
+            {gameState.hasVisualController && !gameState.isComplete ? <VisualController onMove={handleKeyPress} /> : null}
         </div>
     );
 }

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Board from './Board2';
-import getGameContext from '../utils/getGameContext';
-import { getSingleLevel } from '../services/level.service';
+import getGameContext from '../../utils/getGameContext';
+import { getSingleLevel } from '../../services/level.service';
 import LevelComplete from './LevelComplete';
 import Timer from './Timer';
 import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
-import GameContext from '../contexts/GameContext';
+import GameContext from '../../contexts/GameContext';
 
 const initialState = {
     level: { positions: {}, objects: [] },
@@ -21,7 +21,7 @@ const initialState = {
     theme: 'defaultPics'
 }
 
-function GameScene({ match }) {
+function GameScene() {
     const [gameState, setGameState] = useState({ ...initialState, getLevel });
 
     function getLevel(value) {

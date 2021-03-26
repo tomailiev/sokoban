@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import GameContext from "../contexts/GameContext";
-import * as themes from '../themes';
+import GameContext from "../../contexts/GameContext";
+import * as themes from '../../themes';
 
 const ThemeSelect = (props) => {
 

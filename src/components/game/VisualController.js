@@ -1,4 +1,4 @@
-import { controllerContainer, controllerKey } from '../styles';
+import { controllerContainer, controllerKey } from '../../styles';
 
 function VisualController(props) {
 

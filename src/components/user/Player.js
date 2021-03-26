@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { addLevel } from '../services/level.service';
+import { addLevel } from '../../services/level.service';
+import Logout from "./Logout";
 
 function Player(props) {
 
@@ -34,6 +35,8 @@ function Player(props) {
 
                 <input style={formFieldStyle} type="submit" value="Submit" />
             </form>
+
+            <Logout />
         </div>
     );
 }

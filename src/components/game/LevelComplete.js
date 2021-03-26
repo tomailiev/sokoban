@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import GameContext from "../contexts/GameContext";
-import UserContext from "../contexts/UserContext";
+import GameContext from "../../contexts/GameContext";
+import UserContext from "../../contexts/UserContext";
 
 function LevelComplete(props) {
 

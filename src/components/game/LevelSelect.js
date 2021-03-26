@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import GameContext from "../contexts/GameContext";
-import UserContext from "../contexts/UserContext";
+import GameContext from "../../contexts/GameContext";
+import UserContext from "../../contexts/UserContext";
 
 const LevelSelect = (props) => {
 

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import GameContext from "../contexts/GameContext";
+import GameContext from "../../contexts/GameContext";
 
 function Timer() {
 
