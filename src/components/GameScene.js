@@ -16,7 +16,7 @@ const initialState = {
     shouldReset: false,
     hasVisualController: false,
     undo: false,
-    redo: false,
+    undoneObject: [],
     moves: 0,
     theme: 'defaultPics'
 }

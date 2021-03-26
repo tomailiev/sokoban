@@ -3,10 +3,10 @@ import GameContext from "../contexts/GameContext";
 
 const UndoButton = () => {
 
-    const { setGameState } = useContext(GameContext);
+    const { gameState, setGameState } = useContext(GameContext);
 
     return (
-        <button className="button-square" onClick={() => setGameState(prev => ({ ...prev, undo: true }))}><i className="fas fa-undo"></i></button>
+        <button disabled={!gameState.undoneObject.length} className="button-square" onClick={() => setGameState(prev => ({ ...prev, undo: true }))}><i className="fas fa-undo"></i></button>
     );
 };
 
