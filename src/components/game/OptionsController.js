@@ -9,7 +9,7 @@ function OptionsController(props) {
 
 
     return (
-        <div className="container container-50 flex-container flex-between">
+        <div className="container responsive-container flex-container flex-between">
             <UndoButton />
             {/* <RedoButton /> */}
             <ResetButton />

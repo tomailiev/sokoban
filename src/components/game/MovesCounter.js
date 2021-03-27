@@ -6,7 +6,7 @@ function MovesCounter() {
     const { gameState } = useContext(GameContext);
 
     return (
-        <div className="button-square">{gameState.moves}</div>
+        <div className="button-no-action">{gameState.moves}</div>
     );
 }
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import Board from './Board2';
 import getGameContext from '../../utils/getGameContext';
 import { getSingleLevel } from '../../services/level.service';
@@ -14,22 +14,23 @@ import initialGameState from '../../config/initialGameState';
 function GameScene() {
     const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
     const { user, setUser } = useContext(UserContext);
+    const resize = useCallback(() => {
+        if (gameState.squareSize === 30 && window.innerWidth / gameState.level.longest > 30) { return };
+        setGameState(prev => ({
+            ...prev, squareSize: window.innerWidth / gameState.level.longest < 30
+                ? window.innerWidth / gameState.level.longest
+                : 30
+        }));
+    }, [gameState.level.longest, gameState.squareSize]);
 
     useEffect(() => {
-        function resize() {
-            if (gameState.squareSize === 30 && window.innerWidth / gameState.level.longest > 30) { return };
-            setGameState(prev => ({
-                ...prev, squareSize: window.innerWidth / gameState.level.longest < 30
-                    ? window.innerWidth / gameState.level.longest
-                    : 30
-            }));
-        }
-        if (window.innerWidth / gameState.level.longest < 30) {
-            resize();
-        }
+        resize();
+    }, [resize]);
+
+    useEffect(() => {
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);
-    }, [gameState.level.longest, gameState.squareSize]);
+    }, [gameState.level.longest, gameState.squareSize, resize]);
 
     useEffect(() => {
         if (!gameState.isComplete) {
@@ -73,7 +74,7 @@ function GameScene() {
         <GameContext.Provider value={{ gameState, setGameState }}>
             <OptionsController />
             <Board />
-            <div className="container container-50 flex-container flex-between">
+            <div className="container responsive-container flex-container flex-between">
                 <Timer />
                 <MovesCounter />
             </div>

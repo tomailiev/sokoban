@@ -5,7 +5,7 @@ const boardWrapperStyle = (width = 1, height = 1, squareSize) => ({
     width: width * squareSize,
     height: height * squareSize,
     maxWidth: '100vw',
-    margin: '50px auto',
+    margin: '50px auto 20px auto',
     userSelect: 'none'
 });
 

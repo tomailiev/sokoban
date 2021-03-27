@@ -9,7 +9,7 @@ const ControllerToggle = () => {
     }
 
     return (
-        <button className="button-square" onClick={toggleVisualController}><i className="fas fa-gamepad"></i></button>
+        <button className="button-square order-last" onClick={toggleVisualController}><i className="fas fa-gamepad"></i></button>
     );
 };
 

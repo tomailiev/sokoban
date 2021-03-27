@@ -30,7 +30,7 @@ function Timer() {
     }, [gameState.shouldReset, gameState.isStarted, gameState.time, setGameState]);
 
     return (
-        <div className="button-square">{gameState.time}</div>
+        <div className="button-no-action">{gameState.time}</div>
     );
 }
 

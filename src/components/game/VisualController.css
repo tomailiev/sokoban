@@ -1,0 +1,33 @@
+/* padding: 20,
+    border: '1px solid black',
+    borderRadius: 5,
+    maxWidth: 20 */
+
+/* position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)' */
+
+.controller {
+    touch-action: manipulation;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.arrow {
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    max-width: 20px;
+}
+
+@media screen and (max-width: 480px) {
+    .controller {
+        width: 90%;
+    }
+    .arrow {
+        font-size: 22px;
+        padding: 22px;
+        margin: 2px;
+    }
+}
