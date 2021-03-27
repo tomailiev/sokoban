@@ -10,6 +10,7 @@ const initialGameState = {
     moves: 0,
     time: '0:00',
     theme: 'defaultPics',
-}
+    squareSize: 30
+};
 
 export default initialGameState;

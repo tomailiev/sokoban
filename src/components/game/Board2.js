@@ -88,7 +88,7 @@ function Board() {
         <div>
             <div
                 className="game-level-wrapper"
-                style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length)}
+                style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length, gameState.squareSize)}
                 tabIndex="-1"
                 onKeyDown={(e) => handleKeyPress(e)}
                 onFocus={() => setPauseMessage('')}
@@ -96,10 +96,10 @@ function Board() {
             >
                 {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {
-                    return <img style={singleSquareStyle({ position: key, type: val })} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
+                    return <img style={singleSquareStyle({ position: key, type: val },  gameState.squareSize)} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
                 })}
                 {objects.map(x => {
-                    return <img style={singleSquareStyle(x)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
+                    return <img style={singleSquareStyle(x,  gameState.squareSize)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
             </div>
             {gameState.hasVisualController && !gameState.isComplete ? <VisualController onMove={handleKeyPress} /> : null}

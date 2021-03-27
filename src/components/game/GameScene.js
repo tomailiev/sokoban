@@ -16,6 +16,22 @@ function GameScene() {
     const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
+        function resize() {
+            if (gameState.squareSize === 30 && window.innerWidth / gameState.level.longest > 30) { return };
+            setGameState(prev => ({
+                ...prev, squareSize: window.innerWidth / gameState.level.longest < 30
+                    ? window.innerWidth / gameState.level.longest
+                    : 30
+            }));
+        }
+        if (window.innerWidth / gameState.level.longest < 30) {
+            resize();
+        }
+        window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
+    }, [gameState.level.longest, gameState.squareSize]);
+
+    useEffect(() => {
         if (!gameState.isComplete) {
             getLevel(user.bestLevel);
         }
