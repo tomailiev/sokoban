@@ -8,27 +8,36 @@ import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
 import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
-
-const initialState = {
-    level: { positions: {}, objects: [] },
-    isStarted: false,
-    isComplete: false,
-    isGameDone: false,
-    shouldReset: false,
-    hasVisualController: false,
-    undo: false,
-    undoneObject: [],
-    moves: 0,
-    theme: 'defaultPics'
-}
+import { updateUser } from '../../services/user.service';
+import initialGameState from '../../config/initialGameState';
 
 function GameScene() {
-    const [gameState, setGameState] = useState({ ...initialState, getLevel });
-    const {user} = useContext(UserContext);
+    const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
-        getLevel(user.bestLevel);
-    }, [user.bestLevel]);
+        if (!gameState.isComplete) {
+            getLevel(user.bestLevel);
+        }
+    }, [user.bestLevel, gameState.isComplete]);
+
+    useEffect(() => {
+        if (gameState.isComplete && user.id && user.bestLevel === gameState.level.index) {
+            const newBest = user.bestLevel + 1
+            updateUser(user.id,
+                {
+                    bestLevel: newBest,
+                    scores: {
+                        time: gameState.time,
+                        moves: gameState.moves,
+                        level: user.bestLevel
+                    }
+                })
+                .then(() => setUser(prev => ({ ...prev, bestLevel: newBest })))
+                .catch(console.error);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameState.isComplete]);
 
     function getLevel(value) {
         return getSingleLevel(value)

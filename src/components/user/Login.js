@@ -4,6 +4,8 @@ function Login({ history }) {
 
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
+        const { email, password, } = e.target;
+        if (!email.value || !password.value) { return; }
         auth.signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
             .then((userCredential) => {
                 history.push('/');

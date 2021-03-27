@@ -40,14 +40,14 @@ function Board() {
 
     function updatePositions(object = {}, newPosition = []) {
         updateGameState({ undoneObject: objects });
-        setObjects(prev => (prev.map(x => {
-            if (x.id !== object.id) return x;
-            return {
+        setObjects(prev => (prev.map(x => x.id !== object.id
+            ? x
+            : {
                 ...x,
                 position: newPosition,
                 onGoal: gameState.level.positions[newPosition] === 'goal'
-            };
-        })));
+            }
+        )));
     }
 
     function handleMove(player, newPlayerCoord, newBoxCoord) {

@@ -3,17 +3,16 @@ import GameContext from "../../contexts/GameContext";
 
 function Timer() {
 
-    const [time, setTime] = useState('0:00');
-    const { gameState } = useContext(GameContext);
+    const { gameState, setGameState } = useContext(GameContext);
 
     useEffect(() => {
         if (gameState.shouldReset) {
-            setTime('0:00');
+            setGameState(prev => ({...prev, time: '0:00'}));
         }
         let interval;
         if (gameState.isStarted) {
             interval = setInterval(() => {
-                let [mins, secs] = time.split(':').map(Number);
+                let [mins, secs] = gameState.time.split(':').map(Number);
                 if (secs === 59) {
                     secs = 0;
                     mins++;
@@ -21,18 +20,17 @@ function Timer() {
                     secs++;
                 }
                 const newTime = `${mins}:${secs < 10 ? `0${secs}` : secs}`;
-                setTime(newTime);
+                setGameState(prev => ({...prev, time: newTime}));
             }, 1000);
         } else {
             clearInterval(interval);
         }
 
         return () => clearInterval(interval);
-    }, [gameState.shouldReset, gameState.isStarted, time]);
-
+    }, [gameState.shouldReset, gameState.isStarted, gameState.time, setGameState]);
 
     return (
-        <div className="button-square">{time}</div>
+        <div className="button-square">{gameState.time}</div>
     );
 }
 

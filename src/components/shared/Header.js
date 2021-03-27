@@ -4,7 +4,7 @@ import UserContext from '../../contexts/UserContext';
 
 function Header() {
 
-    const { user, setUser } = useContext(UserContext)
+    const { user } = useContext(UserContext)
 
     return (
         <header>
@@ -26,20 +26,20 @@ function Header() {
                     {user.id
                         ? <>
                             <li>
-                                <NavLink to="/player">Player</NavLink>
+                                <NavLink to={`/player/${user.id}`}>Player</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/logout">Logout</NavLink>
                             </li>
                         </>
                         : <>
-                        <li>
-                            <NavLink to="/login">Login</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/register">Register</NavLink>
-                        </li>
-                    </>
+                            <li>
+                                <NavLink to="/login">Login</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/register">Register</NavLink>
+                            </li>
+                        </>
                     }
                 </ul>
             </nav>

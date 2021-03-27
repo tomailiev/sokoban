@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 import UserContext from "../../contexts/UserContext";
 
-const LevelSelect = (props) => {
+const LevelSelect = () => {
 
     const { gameState } = useContext(GameContext);
     const { user } = useContext(UserContext);
@@ -10,11 +10,6 @@ const LevelSelect = (props) => {
     function changeLevel(num) {
         gameState.getLevel(num);
     }
-
-    // useEffect(() => {
-    //     console.log(user.bestLevel);
-    //     changeLevel(user.bestLevel);
-    // }, [user.bestLevel]);
 
     return (
         <select className="button-square" value={gameState.level?.index || 'Select level'} onChange={(e) => changeLevel(Number(e.target.value))}>

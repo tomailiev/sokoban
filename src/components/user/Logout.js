@@ -1,16 +1,11 @@
 import { auth } from "../../utils/firebase";
 
-const Logout = ({ history }) => {
-
-    function handleLogout() {
-        auth.signOut().then(() => {
-            history.push('/');
-        }).catch((error) => {
-            console.error(error)
-        });
-    }
-
-    return <button onClick={handleLogout}>Logout</button>
+function handleLogout({ history }) {
+    auth.signOut().then(() => {
+        history.push('/');
+    }).catch((error) => {
+        console.error(error)
+    });
 }
 
-export default Logout
+export default handleLogout;

@@ -5,8 +5,12 @@ function Register({ history }) {
 
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
-        auth.createUserWithEmailAndPassword(e.target.email.value, e.target.password.value)
+        const { email, name, password, rePassword } = e.target;
+        if ((!email.value || !password.value)
+            || password.value !== rePassword.value) { return; }
+        auth.createUserWithEmailAndPassword(email.value, password.value)
             .then((userCredential) => {
+                [email, name, password, rePassword].forEach(x => x.value = '');
                 return createUser(userCredential.user.uid);
             })
             .then(() => history.push('/game'))
@@ -33,8 +37,8 @@ function Register({ history }) {
                     <input type="password" id="password" />
                 </div>
                 <div className="form-field">
-                    <label htmlFor="re-password">Confirm Passsword:</label>
-                    <input type="password" id="re-password" />
+                    <label htmlFor="rePassword">Confirm Passsword:</label>
+                    <input type="password" id="rePassword" />
                 </div>
                 <div className="form-field">
                     <input type="submit" value="Register" />

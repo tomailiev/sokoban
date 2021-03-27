@@ -12,7 +12,7 @@ import UserContext from './contexts/UserContext';
 import Register from './components/user/Register';
 import { auth } from './utils/firebase';
 import Login from './components/user/Login';
-import Logout from './components/user/Logout';
+import handleLogout from './components/user/Logout';
 import { getUserData } from './services/user.service';
 const GameScene = React.lazy(() => import('./components/game/GameScene'));
 
@@ -47,12 +47,12 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <main>
-          <Suspense fallback="<div>Loading...</div>">
+          <Suspense fallback={<div>Loading...</div>}>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/game" component={GameScene} />
-              <Route path="/player" component={Player} />
-              <Route path="/logout" component={Logout} />
+              <Route path="/player/:id" component={Player} />
+              <Route path="/logout" render={handleLogout} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
             </Switch>
