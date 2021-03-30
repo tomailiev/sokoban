@@ -6,13 +6,14 @@ import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../../s
 import * as themes from '../../themes';
 import VisualController from './VisualController';
 import GameContext from "../../contexts/GameContext";
+import useResize from "../../hooks/useResize";
 
 function Board() {
 
     const { gameState, setGameState } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
     const [pauseMessage, setPauseMessage] = useState('Click here to play');
-
+    const [squareSize] = useResize(gameState.level.longest);
     const updateGameState = useCallback((propsToUpdate = {}) => {
         setGameState(prev => ({ ...prev, ...propsToUpdate }));
     }, [setGameState]);
@@ -25,9 +26,8 @@ function Board() {
         if (gameState.shouldReset) {
             updateGameState({ shouldReset: false, isStarted: false });
         }
-
     }, [gameState.level, gameState.shouldReset, updateGameState]);
-
+    // undo functionality
     useEffect(() => {
         if (gameState.undo) {
             updateGameState({ undo: false });
@@ -88,18 +88,18 @@ function Board() {
         <div>
             <div
                 className="game-level-wrapper"
-                style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length, gameState.squareSize)}
+                style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length, squareSize)}
                 tabIndex="-1"
-                onKeyDown={(e) => handleKeyPress(e)}
+                onKeyDown={handleKeyPress}
                 onFocus={() => setPauseMessage('')}
                 onBlur={() => setPauseMessage('Click here to return to the game')}
             >
                 {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {
-                    return <img style={singleSquareStyle({ position: key, type: val },  gameState.squareSize)} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
+                    return <img style={singleSquareStyle({ position: key, type: val }, squareSize)} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
                 })}
                 {objects.map(x => {
-                    return <img style={singleSquareStyle(x,  gameState.squareSize)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
+                    return <img style={singleSquareStyle(x, squareSize)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
             </div>
             {gameState.hasVisualController && !gameState.isComplete ? <VisualController onMove={handleKeyPress} /> : null}

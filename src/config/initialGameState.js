@@ -1,5 +1,5 @@
 const initialGameState = {
-    level: { positions: {}, objects: [], longest: 1 },
+    level: { positions: {}, objects: [], longest: 20 },
     isStarted: false,
     isComplete: false,
     isGameDone: false,
@@ -10,7 +10,6 @@ const initialGameState = {
     moves: 0,
     time: '0:00',
     theme: 'defaultPics',
-    squareSize: 1
 };
 
 export default initialGameState;

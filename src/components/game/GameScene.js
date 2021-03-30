@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Board from './Board2';
 import getGameContext from '../../utils/getGameContext';
 import { getSingleLevel } from '../../services/level.service';
@@ -10,53 +10,53 @@ import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
 import { updateUser } from '../../services/user.service';
 import initialGameState from '../../config/initialGameState';
+import { transformToSeconds } from '../../utils/transformToSeconds';
+import { addHighScore } from '../../services/highScores.service';
 
 function GameScene() {
-    const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
     const { user, setUser } = useContext(UserContext);
-    const resize = useCallback(() => {
-        if (gameState.squareSize === 30 && window.innerWidth / gameState.level.longest > 30) { return };
-        setGameState(prev => ({
-            ...prev, squareSize: window.innerWidth / gameState.level.longest < 30
-                ? window.innerWidth / gameState.level.longest
-                : 30
-        }));
-    }, [gameState.level.longest, gameState.squareSize]);
+    const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
 
     useEffect(() => {
-        resize();
-    }, [resize]);
-
-    useEffect(() => {
-        window.addEventListener('resize', resize);
-        return () => window.removeEventListener('resize', resize);
-    }, [gameState.level.longest, gameState.squareSize, resize]);
-
-    useEffect(() => {
-        if (!gameState.isComplete) {
-            getLevel(user.bestLevel);
-        }
-    }, [user.bestLevel, gameState.isComplete]);
-
-    useEffect(() => {
-        if (gameState.isComplete && user.id && user.bestLevel === gameState.level.index) {
-            const newBest = user.bestLevel + 1
-            updateUser(user.id,
-                {
-                    bestLevel: newBest,
-                    scores: {
-                        time: gameState.time,
+        if (gameState.isComplete) {
+            const { id, bestLevel, scores } = user;
+            let highScore = null;
+            const update = {}
+            const transformedTime = transformToSeconds(gameState.time);
+            if (scores &&
+                (!scores[gameState.level.index] || scores[gameState.level.index].total > gameState.moves + transformedTime)) {
+                update.scores = {
+                    [gameState.level.index]: {
+                        time: transformedTime,
                         moves: gameState.moves,
-                        level: user.bestLevel
+                        total: transformedTime + gameState.moves
                     }
-                })
-                .then(() => setUser(prev => ({ ...prev, bestLevel: newBest })))
+                };
+                highScore = {
+                    name: user.name || user.email.substring(0, user.email.indexOf('@')),
+                    total: transformedTime + gameState.moves,
+                    level: gameState.level.index,
+                    time: gameState.time,
+                    moves: gameState.moves
+                };
+            }
+            if (id && bestLevel < gameState.level.index + 1) { update.bestLevel = gameState.level.index + 1 }
+            Promise.all([updateUser(user.id, update), addHighScore(highScore)])
+                .then(() => setUser(prev => {
+                    return {
+                        ...prev,
+                        bestLevel: update.bestLevel ? update.bestLevel : prev.bestLevel,
+                        scores: update.scores
+                            ? { ...prev.scores, [gameState.level.index]: update.scores[gameState.level.index] }
+                            : prev.scores,
+                    }
+                }))
                 .catch(console.error);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameState.isComplete]);
 
-    function getLevel(value) {
+    function getLevel(value = user.bestLevel) {
         return getSingleLevel(value)
             .then(level => {
                 setGameState(prev => ({

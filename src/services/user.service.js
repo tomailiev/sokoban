@@ -1,23 +1,24 @@
-import firebase, { db } from '../utils/firebase';
-import { transformToSeconds } from '../utils/transformToSeconds';
+import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
 function createUser(id) {
     return usersRef.doc(id).set({
         bestLevel: 1,
-        scores: []
+        scores: {}
     });
 }
 
 function updateUser(id, item = {}) {
+    const update = {};
     if (item.scores) {
-        const { time, moves, level } = item.scores;
-        return usersRef.doc(id).update({
-            ...item,
-            scores: firebase.firestore.FieldValue.arrayUnion({ moves, level, time: transformToSeconds(time) })
-        });
+        const level = Object.keys(item.scores)[0];
+        const scores = `scores.${level}`;
+        update[scores] =  item.scores[level];
     }
-    return usersRef.doc(id).update(item);
+    if (item.bestLevel) {
+        update.bestLevel = item.bestLevel;
+    }
+    return usersRef.doc(id).update(update);
 }
 
 function getUserData(id) {
