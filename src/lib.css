@@ -4,6 +4,7 @@ html {
     box-sizing: border-box;
     margin: 0;
     font-size: 16px;
+    height: 100%;
 }
 
 * *::before, *::after {
@@ -12,6 +13,19 @@ html {
 
 body {
     font-family: Helvetica, sans-serif;
+    height: 100%;
+}
+main {
+    padding-bottom: 126px;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    background: orange;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -142,7 +156,7 @@ nav ul>li>a {
     background: white;
     border: 1px solid orangered;
     margin: 10px;
-    min-width: 180px;
+    min-width: 163px;
 }
 
 .flex-100 {

@@ -15,6 +15,7 @@ import Login from './components/user/Login';
 import handleLogout from './components/user/Logout';
 import { getUserData } from './services/user.service';
 import HighScores from './components/HighScores';
+import Footer from './components/shared/Footer';
 const GameScene = React.lazy(() => import('./components/game/GameScene'));
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             </Switch>
           </Suspense>
         </main>
+        <Footer />
       </UserContext.Provider>
     </div>
   );

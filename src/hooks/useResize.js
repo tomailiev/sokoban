@@ -11,7 +11,9 @@ const useResize = (width) => {
                 setSize(_prev => 30);
             }
         }
-        window.addEventListener('resize', resize)
+        window.addEventListener('resize', resize);
+
+        return () => window.removeEventListener('resize', resize);
     }, [width]);
 
     return [
