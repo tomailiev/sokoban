@@ -1,10 +1,13 @@
 import { auth } from "../../utils/firebase";
+import { toast } from 'react-toastify';
 
-function handleLogout({ history }) {
+function handleLogout(props) {
+    console.log(props);
     auth.signOut().then(() => {
-        history.push('/');
+        toast.info('signed out');
+        props.history.push('/');
     }).catch((error) => {
-        console.error(error)
+        toast.error(error.message);
     });
 }
 

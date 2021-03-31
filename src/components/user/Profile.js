@@ -3,10 +3,11 @@ import UserContext from "../../contexts/UserContext";
 import { auth } from "../../utils/firebase";
 import ProfileDisplay from "./ProfileDisplay";
 import ProfileEdit from "./ProfileEdit";
+import { toast } from 'react-toastify';
 
 function Profile() {
-    const [isEditing, setIsEditing] = useState(false);
     const { user, setUser } = useContext(UserContext);
+    const [isEditing, setIsEditing] = useState(false);
 
     function toggleEditAndSave(e) {
         const fbUser = auth.currentUser;
@@ -17,7 +18,9 @@ function Profile() {
                 setUser(prev => ({ ...prev, displayName: e }))
                 setIsEditing(prev => !prev);
             })
-            .catch(({code, message}) => console.log(message));
+            .catch((err) => {
+                toast.error(err.message);
+            });
     }
 
     function cancelChanges() {

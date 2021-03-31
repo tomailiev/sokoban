@@ -15,9 +15,6 @@ function LevelComplete(props) {
 
     function changeLevel(num) {
         if (user.id && user.bestLevel < num) {
-            // updateUser(user.id, { bestLevel: num, scores: { time: gameState.time, moves: gameState.moves, level: num - 1 } })
-            //     .then(() => setUser(prev => ({ ...prev, bestLevel: num })))
-            //     .catch(console.error);
             setUser(prev => ({ ...prev, bestLevel: num }));
         } else {
             gameState.getLevel(num);

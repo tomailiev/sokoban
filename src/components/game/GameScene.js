@@ -12,6 +12,7 @@ import { updateUser } from '../../services/user.service';
 import initialGameState from '../../config/initialGameState';
 import { transformToSeconds } from '../../utils/transformToSeconds';
 import { addHighScore } from '../../services/highScores.service';
+import { toast } from 'react-toastify';
 
 function GameScene() {
     const { user, setUser } = useContext(UserContext);
@@ -51,7 +52,9 @@ function GameScene() {
                             : prev.scores,
                     }
                 }))
-                .catch(console.error);
+                .catch((e) => {
+                    toast.error(e.message);
+                });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameState.isComplete]);
@@ -67,7 +70,9 @@ function GameScene() {
                     moves: 0
                 }));
             })
-            .catch(console.error);
+            .catch((e) => {
+                toast.error(e.message);
+            });
     }
 
     return (

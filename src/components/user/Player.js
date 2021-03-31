@@ -1,5 +1,5 @@
 import Profile from "./Profile";
-import UploadLevel from "./UploadLevel";
+// import UploadLevel from "./UploadLevel";
 import UserScores from "./UserScores";
 
 function Player() {
@@ -7,7 +7,7 @@ function Player() {
         <>
             <Profile />
             <UserScores />
-            <UploadLevel />
+            {/* <UploadLevel /> */}
         </>
     );
 }
