@@ -1,11 +1,17 @@
 import firebase, { db } from '../utils/firebase';
 const highScoresRef = db.collection('highScores');
 
-function getHighScores(level) {
-    return highScoresRef.where('level', '==', level)
+function getHighScores() {
+    return highScoresRef
+        .orderBy('level', 'desc')
         .orderBy('total')
-        .limit(3)
+        .limit(12)
         .get()
+        .then(snaps => {
+            const scores = [];
+            snaps.forEach(x => scores.push(Object.assign(x.data(), { id: x.id })));
+            return scores;
+        });
 }
 
 function addHighScore(score) {

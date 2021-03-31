@@ -12,21 +12,22 @@ function Board() {
 
     const { gameState, setGameState } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
-    const [pauseMessage, setPauseMessage] = useState('Click here to play');
+    const [pauseMessage, setPauseMessage] = useState('Select level above');
     const [squareSize] = useResize(gameState.level.longest);
     const updateGameState = useCallback((propsToUpdate = {}) => {
         setGameState(prev => ({ ...prev, ...propsToUpdate }));
     }, [setGameState]);
 
     useEffect(() => {
-        if (gameState.level) {
+        if (gameState.level.objects.length) {
             updateGameState({ isComplete: false });
             setObjects(gameState.level.objects);
+            setPauseMessage('Click to play!')
         }
         if (gameState.shouldReset) {
             updateGameState({ shouldReset: false, isStarted: false });
         }
-    }, [gameState.level, gameState.shouldReset, updateGameState]);
+    }, [gameState.level.objects, gameState.shouldReset, updateGameState]);
     // undo functionality
     useEffect(() => {
         if (gameState.undo) {
@@ -92,7 +93,7 @@ function Board() {
                 tabIndex="-1"
                 onKeyDown={handleKeyPress}
                 onFocus={() => setPauseMessage('')}
-                onBlur={() => setPauseMessage('Click here to return to the game')}
+                onBlur={() => setPauseMessage( gameState.level.legend ? 'Click here to return to the game' : 'Select level above')}
             >
                 {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {

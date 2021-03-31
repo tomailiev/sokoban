@@ -10,10 +10,19 @@ function Register({ history }) {
             || password.value !== rePassword.value) { return; }
         auth.createUserWithEmailAndPassword(email.value, password.value)
             .then((userCredential) => {
-                [email, name, password, rePassword].forEach(x => x.value = '');
-                return createUser(userCredential.user.uid);
+                if (userCredential && name.value) {
+                    return (Promise.all([
+                        createUser(userCredential.user.uid),
+                        userCredential.user.updateProfile({ displayName: name.value })
+                    ]));
+                } else {
+                    return createUser(userCredential.user.uid);
+                }
             })
-            .then(() => history.push('/game'))
+            .then(() => {
+                [email, name, password, rePassword].forEach(x => x.value = '');
+                history.push('/');
+            })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;

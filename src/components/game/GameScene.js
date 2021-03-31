@@ -33,7 +33,7 @@ function GameScene() {
                     }
                 };
                 highScore = {
-                    name: user.name || user.email.substring(0, user.email.indexOf('@')),
+                    name: user.displayName || user.email.substring(0, user.email.indexOf('@')),
                     total: transformedTime + gameState.moves,
                     level: gameState.level.index,
                     time: gameState.time,

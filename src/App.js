@@ -14,6 +14,7 @@ import { auth } from './utils/firebase';
 import Login from './components/user/Login';
 import handleLogout from './components/user/Logout';
 import { getUserData } from './services/user.service';
+import HighScores from './components/HighScores';
 const GameScene = React.lazy(() => import('./components/game/GameScene'));
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         getUserData(u.uid)
           .then(userData => {
             setUser({
-              name: u.displayName,
+              displayName: u.displayName,
               email: u.email,
               photoUrl: u.photoURL,
               id: u.uid,
@@ -51,6 +52,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/game" component={GameScene} />
+              <Route path="/high" component={HighScores} />
               <Route path="/player/:id" component={Player} />
               <Route path="/logout" render={handleLogout} />
               <Route path="/login" component={Login} />

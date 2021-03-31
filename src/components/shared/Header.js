@@ -18,7 +18,7 @@ function Header() {
                         <NavLink to="/game">Play</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/game">High Scores</NavLink>
+                        <NavLink to="/high">High Scores</NavLink>
                     </li>
                     <li>
                         <NavLink to="/game">How To</NavLink>
