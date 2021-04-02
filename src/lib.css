@@ -311,6 +311,13 @@ select::after {
     .responsive-container {
         max-width: 90%;
     }
+    main {
+        padding-bottom: 105px;
+    }
+
+    footer {
+        height: 100px;
+    }
 }
 
 @media screen and (max-width: 540px) {
@@ -335,18 +342,23 @@ select::after {
     }
     header.show nav ul li {
         opacity: 1;
+        visibility: visible;
         transition: 0.3s opacity ease-in;
     }
     nav ul {
         text-align: end;
+        margin: 0;
     }
     nav ul li.mobile-only {
         display: block;
         color: whitesmoke;
-        margin-bottom: 10px;
+        min-height: 16px;
+        margin: 17px 0;
+        /* margin-bottom: 10px; */
     }
     nav ul li:not(.mobile-only) {
         display: block;
+        visibility: hidden;
         opacity: 0;
         padding: 8px 0;
         transition: 0s opacity;

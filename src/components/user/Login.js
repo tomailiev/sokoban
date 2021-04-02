@@ -1,12 +1,14 @@
+import SquareLoader from 'react-spinners/SquareLoader';
 import { useContext, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
 import { auth } from '../../utils/firebase';
 import { toast } from 'react-toastify';
 import validations from '../../utils/validators';
+import LoadingContext from '../../contexts/LoadingContext';
 
 function Login({ history }) {
-    const { isLoadingUser } = useContext(UserContext);
-    const [isInvalid, setIsInvalid] = useState({ email: null, password: null })
+    const { isLoading } = useContext(LoadingContext);
+    const [isInvalid, setIsInvalid] = useState({ email: null, password: null });
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
@@ -15,14 +17,17 @@ function Login({ history }) {
             toast.warn('Please correct the red fields');
             return;
         }
+        setHasSubmitted(true);
         auth.signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
             .then((userCredential) => {
+                setHasSubmitted(false);
                 const loggedInUser = userCredential.user;
                 [email, password].forEach(x => x.value = '');
                 toast.success(`Welcome ${loggedInUser.displayName || loggedInUser.email}`);
                 history.push('/');
             })
             .catch((e) => {
+                setHasSubmitted(false);
                 toast.error(e.message);
             });
     }
@@ -43,9 +48,8 @@ function Login({ history }) {
     return (
         <div className="form-wrapper container responsive-container">
             <h2>Login</h2>
-            {isLoadingUser
-                ? <div>Loading...</div>
-                : <form onSubmit={handleRegisterFormSubmit}>
+            {!isLoading &&
+                <form onSubmit={handleRegisterFormSubmit}>
                     <div className="form-field">
                         <label htmlFor="email">Email:</label>
                         <input className={isInvalid.email && 'invalid'} type="email" id="email" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />
@@ -57,13 +61,14 @@ function Login({ history }) {
                         {isInvalid.password && <p className="validation-error">{isInvalid.password}</p>}
                     </div>
                     <div className="form-field">
-                        <input type="submit" value="Login" className="button-square" />
+                        {hasSubmitted
+                            ? <SquareLoader color="green" size={50} />
+                            : <input type="submit" value="Login" className="button-square" />}
                     </div>
                 </form>
             }
         </div>
     )
 }
-
 
 export default Login;

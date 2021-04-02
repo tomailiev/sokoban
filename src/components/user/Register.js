@@ -1,13 +1,15 @@
 import { auth } from '../../utils/firebase';
+import SquareLoader from 'react-spinners/SquareLoader';
 import { createUser } from '../../services/user.service';
 import { useContext, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
 import { toast } from 'react-toastify';
 import validations from '../../utils/validators';
+import LoadingContext from '../../contexts/LoadingContext';
 function Register({ history }) {
 
-    const { isLoadingUser } = useContext(UserContext);
+    const { isLoading } = useContext(LoadingContext);
     const [isInvalid, setIsInvalid] = useState({ email: null, password: null, repeatPassword: null });
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     function validateOnBlur(e) {
         const element = e.target
@@ -25,7 +27,7 @@ function Register({ history }) {
     function handleRegisterFormSubmit(e) {
         e.preventDefault();
         const { email, name, password, repeatPassword } = e.target;
-        if (password.value !== repeatPassword.value) { 
+        if (password.value !== repeatPassword.value) {
             setIsInvalid(prev => ({ ...prev, repeatPassword: 'Passwords don\'t match' }));
             return;
         }
@@ -33,6 +35,7 @@ function Register({ history }) {
             toast.warn('Please correct the red fields');
             return;
         }
+        setHasSubmitted(true);
         auth.createUserWithEmailAndPassword(email.value, password.value)
             .then((userCredential) => {
                 if (userCredential && name.value) {
@@ -45,11 +48,13 @@ function Register({ history }) {
                 }
             })
             .then(() => {
+                setHasSubmitted(false);
                 toast.success(`Welcome ${name.value || email.value}`);
                 [email, name, password, repeatPassword].forEach(x => x.value = '');
                 history.push('/');
             })
             .catch((e) => {
+                setHasSubmitted(false);
                 toast.error(e.message);
             });
     }
@@ -57,9 +62,8 @@ function Register({ history }) {
     return (
         <div className="form-wrapper container responsive-container">
             <h2>Register</h2>
-            {isLoadingUser
-                ? <div>Loading user</div>
-                : <form onSubmit={handleRegisterFormSubmit}>
+            {!isLoading &&
+                <form onSubmit={handleRegisterFormSubmit}>
                     <div className="form-field">
                         <label htmlFor="email">Email:</label>
                         <input className={isInvalid.email && 'invalid'} type="email" id="email" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />                        {isInvalid.email && <p className="validation-error">{isInvalid.email}</p>}
@@ -79,7 +83,9 @@ function Register({ history }) {
                         {isInvalid.repeatPassword && <p className="validation-error">{isInvalid.repeatPassword}</p>}
                     </div>
                     <div className="form-field">
-                        <input className="button-square" type="submit" value="Register" />
+                        {hasSubmitted
+                            ? <SquareLoader color="green" size={50} />
+                            : <input className="button-square" type="submit" value="Register" />}
                     </div>
                 </form>
             }
