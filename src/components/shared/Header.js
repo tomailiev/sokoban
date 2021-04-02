@@ -29,7 +29,7 @@ function Header() {
                         <NavLink to="/high">High Scores</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/game">How To</NavLink>
+                        <NavLink to="/how_to">How To</NavLink>
                     </li>
                     {user.id
                         ? <>

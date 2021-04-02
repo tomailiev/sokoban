@@ -7,6 +7,8 @@ import * as themes from '../../themes';
 import VisualController from './VisualController';
 import GameContext from "../../contexts/GameContext";
 import useResize from "../../hooks/useResize";
+import Timer from "./Timer";
+import MovesCounter from "./MovesCounter";
 
 function Board() {
 
@@ -93,7 +95,7 @@ function Board() {
                 tabIndex="-1"
                 onKeyDown={handleKeyPress}
                 onFocus={() => setPauseMessage('')}
-                onBlur={() => setPauseMessage( gameState.level.legend ? 'Click here to return to the game' : 'Select level above')}
+                onBlur={() => setPauseMessage(gameState.level.legend ? 'Click here to return to the game' : 'Select level above')}
             >
                 {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {
@@ -102,6 +104,10 @@ function Board() {
                 {objects.map(x => {
                     return <img style={singleSquareStyle(x, squareSize)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
+            </div>
+            <div className="container responsive-container flex-container flex-between">
+                <Timer />
+                <MovesCounter />
             </div>
             {gameState.hasVisualController && !gameState.isComplete ? <VisualController onMove={handleKeyPress} /> : null}
         </div>

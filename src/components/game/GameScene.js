@@ -79,10 +79,6 @@ function GameScene() {
         <GameContext.Provider value={{ gameState, setGameState }}>
             <OptionsController />
             <Board />
-            <div className="container responsive-container flex-container flex-between">
-                <Timer />
-                <MovesCounter />
-            </div>
             {gameState.isComplete
                 ? <LevelComplete />
                 : null

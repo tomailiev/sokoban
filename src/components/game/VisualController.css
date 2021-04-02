@@ -1,15 +1,8 @@
-/* padding: 20,
-    border: '1px solid black',
-    borderRadius: 5,
-    maxWidth: 20 */
-
-/* position: 'absolute',
-    left: '50%',
-    transform: 'translateX(-50%)' */
 
 .controller {
     touch-action: manipulation;
-    position: absolute;
+    position: relative;
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
 }
