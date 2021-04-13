@@ -3,8 +3,6 @@ import Board from './Board2';
 import getGameContext from '../../utils/getGameContext';
 import { getSingleLevel } from '../../services/level.service';
 import LevelComplete from './LevelComplete';
-import Timer from './Timer';
-import MovesCounter from './MovesCounter';
 import OptionsController from './OptionsController';
 import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
@@ -13,6 +11,8 @@ import initialGameState from '../../config/initialGameState';
 import { transformToSeconds } from '../../utils/transformToSeconds';
 import { addHighScore } from '../../services/highScores.service';
 import { toast } from 'react-toastify';
+import createUserScore from '../../utils/createUserScore';
+import createHighScore from '../../utils/createHighScore';
 
 function GameScene() {
     const { user, setUser } = useContext(UserContext);
@@ -21,25 +21,14 @@ function GameScene() {
     useEffect(() => {
         if (gameState.isComplete) {
             const { id, bestLevel, scores } = user;
+            if (!id) { return; }
             let highScore = null;
             const update = {}
             const transformedTime = transformToSeconds(gameState.time);
-            if (scores &&
+            if (id &&
                 (!scores[gameState.level.index] || scores[gameState.level.index].total > gameState.moves + transformedTime)) {
-                update.scores = {
-                    [gameState.level.index]: {
-                        time: transformedTime,
-                        moves: gameState.moves,
-                        total: transformedTime + gameState.moves
-                    }
-                };
-                highScore = {
-                    name: user.displayName || user.email.substring(0, user.email.indexOf('@')),
-                    total: transformedTime + gameState.moves,
-                    level: gameState.level.index,
-                    time: gameState.time,
-                    moves: gameState.moves
-                };
+                update.scores = createUserScore(gameState, transformedTime);
+                highScore = createHighScore(gameState, user, transformedTime);
             }
             if (id && bestLevel < gameState.level.index + 1) { update.bestLevel = gameState.level.index + 1 }
             Promise.all([updateUser(user.id, update), addHighScore(highScore)])

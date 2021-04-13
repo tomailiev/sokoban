@@ -21,9 +21,12 @@ function HighScores() {
     }, [setIsLoading]);
 
     return (
-        <div className="container card-container container-80 flex-between">
-            {!isLoading && scores.map(x => <ScoreCard score={x} key={x.id} />)}
-        </div>
+        <>
+            <h2>High Scores</h2>
+            <div className="container card-container container-80 flex-between">
+                {!isLoading && scores.map(x => <ScoreCard score={x} key={x.id} />)}
+            </div>
+        </>
     )
 }
 

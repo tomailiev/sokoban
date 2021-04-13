@@ -9,8 +9,8 @@ const ProfileEdit = ({save, cancel}) => {
     return (
         <div>
             <input type="text" id="displayName" defaultValue={nameValue} onChange={(e) => setNameValue(e.target.value)} />
-            <button type="button" onClick={() => save(nameValue)}>Save</button>
-            <button type="button" onClick={cancel}>Cancel</button>
+            <button type="button" className="button-square" onClick={() => save(nameValue)}>Save</button>
+            <button type="button" className="button-square" onClick={cancel}>Cancel</button>
         </div>
     );
 }

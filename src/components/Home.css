@@ -1,0 +1,13 @@
+.title-wrapper>h1,h2,h5 {
+    padding: 5px;
+}
+
+.title-wrapper>p:not(.caption) {
+    text-align: left;
+}
+
+.caption {
+    font-size: 200;
+    font-style: italic;
+    margin-top: 0;
+}

@@ -9,7 +9,7 @@ const ProfileDisplay = ({ edit }) => {
             <p>
                 User name: {user.displayName || '[No name]'}
             </p>
-            <button onClick={edit}>Edit</button>
+            <button className="button-square" onClick={edit}>Edit</button>
         </>
     )
 }
