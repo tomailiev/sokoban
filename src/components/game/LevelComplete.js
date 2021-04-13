@@ -1,17 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import './LevelComplete.css';
 import GameContext from "../../contexts/GameContext";
 import UserContext from "../../contexts/UserContext";
-import { updateUser } from "../../services/user.service";
 
-function LevelComplete(props) {
+function LevelComplete() {
 
     const { gameState } = useContext(GameContext);
     const { user, setUser } = useContext(UserContext);
-
+    const [animating, setAnimating] = useState(false);
 
     const levelCompleteMessage = 'Level Complete!';
     const gameCompleteMessage = 'Congrats! You beat Sokoban.';
+
+    useEffect(() => {
+        setAnimating(true);
+    }, []);
 
     function changeLevel(num) {
         if (user.id && user.bestLevel < num) {
@@ -22,7 +26,10 @@ function LevelComplete(props) {
     }
 
     return (
-        <div>
+        <div
+            className={animating ? 'level-complete-wrapper animating' : 'level-complete-wrapper'}
+            onAnimationEnd={() => setAnimating(false)}
+        >
             <h2>{gameState.isGameDone ? gameCompleteMessage : levelCompleteMessage}</h2>
             {!user.id
                 ? (<div>

@@ -180,6 +180,8 @@ nav ul>li>a {
 
 .card:hover {
     background: linen;
+    -webkit-box-shadow: 0px 0px 5px 1px #442D17;
+    box-shadow: 0px 0px 5px 1px #442D17;
 }
 
 .flex-100 {

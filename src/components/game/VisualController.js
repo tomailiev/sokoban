@@ -7,9 +7,17 @@ function VisualController(props) {
         const target = e.target.closest('.arrow')
         if (target) {
             const targetContext = { key: target.className.split(' ')[1] };
+            target.className += ' pressed';
             props.onMove(targetContext);
+            setTimeout(() => {
+                if (target.className.includes('pressed')) {
+                    target.className = target.className.substring(0, target.className.indexOf(' pressed'));
+                }
+            }, 100);
         }
     }
+
+
 
     return (
         <div className="controller" onClick={handleClick}>

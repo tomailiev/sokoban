@@ -13,9 +13,11 @@ import { addHighScore } from '../../services/highScores.service';
 import { toast } from 'react-toastify';
 import createUserScore from '../../utils/createUserScore';
 import createHighScore from '../../utils/createHighScore';
+import LoadingContext from '../../contexts/LoadingContext';
 
 function GameScene() {
     const { user, setUser } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
     const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
 
     useEffect(() => {
@@ -49,6 +51,7 @@ function GameScene() {
     }, [gameState.isComplete]);
 
     function getLevel(value = user.bestLevel) {
+        setIsLoading(true);
         return getSingleLevel(value)
             .then(level => {
                 setGameState(prev => ({
@@ -58,8 +61,10 @@ function GameScene() {
                     shouldReset: true,
                     moves: 0
                 }));
+                setIsLoading(false);
             })
             .catch((e) => {
+                setIsLoading(false);
                 toast.error(e.message);
             });
     }
@@ -67,11 +72,12 @@ function GameScene() {
     return (
         <GameContext.Provider value={{ gameState, setGameState }}>
             <OptionsController />
-            <Board />
+            {!isLoading && <Board />}
             {gameState.isComplete
                 ? <LevelComplete />
                 : null
             }
+
         </GameContext.Provider>
     );
 }

@@ -1,0 +1,16 @@
+/* .level-complete-wrapper {
+    opacity: 0;
+} */
+
+.level-complete-wrapper.animating {
+    animation: appear 1s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
