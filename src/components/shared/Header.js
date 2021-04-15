@@ -20,7 +20,7 @@ function Header() {
                         <i className="fas fa-bars"></i>
                     </li>
                     <li>
-                        <NavLink to="/">Home</NavLink>
+                        <NavLink to="/" exact>Home</NavLink>
                     </li>
                     <li>
                         <NavLink to="/game">Play</NavLink>

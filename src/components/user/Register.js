@@ -84,7 +84,7 @@ function Register({ history }) {
                     </div>
                     <div className="form-field">
                         {hasSubmitted
-                            ? <SquareLoader color="green" size={50} />
+                            ? <SquareLoader color="coral" size={50} />
                             : <input className="button-square" type="submit" value="Register" />}
                     </div>
                 </form>

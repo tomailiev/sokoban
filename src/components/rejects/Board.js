@@ -1,10 +1,10 @@
 import React from 'react';
-import getGameContext from '../utils/getGameContext';
-import getPosition from '../utils/getPosition';
-import setPosition from '../utils/setPosition';
+import getGameContext from '../../utils/getGameContext';
+import getPosition from '../../utils/getPosition';
+import setPosition from '../../utils/setPosition';
 import pics from '../config/pics';
-import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../styles/';
-import keyParams from '../config/keyParams';
+import { singleSquareStyle, boardWrapperStyle, pauseMessageStyle } from '../../styles';
+import keyParams from '../../config/keyParams';
 import VisualController from './VisualController';
 
 class Board extends React.Component {

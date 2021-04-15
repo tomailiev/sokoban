@@ -10,10 +10,10 @@ function UserScores() {
         <>
             <h2>My high scores</h2>
             <div className="container card-container container-80 flex-center">
-                {user.scores
+                {user.bestLevel !== 1
                     ? Object.entries(user.scores).sort((a, b) => b[0] - a[0]).map(([level, { moves, time, total }]) =>
                         <ScoreCard score={Object.assign({ level }, { moves, time: transformFromSeconds(time), total })} key={level} />)
-                    : <div className="no-content"> No content :(</div>}
+                    : <div className="no-content"> No content. Get crackin'</div>}
             </div>
         </>
     )

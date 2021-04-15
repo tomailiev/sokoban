@@ -62,7 +62,7 @@ function Login({ history }) {
                     </div>
                     <div className="form-field">
                         {hasSubmitted
-                            ? <SquareLoader color="green" size={50} />
+                            ? <SquareLoader color="coral" size={50} />
                             : <input type="submit" value="Login" className="button-square" />}
                     </div>
                 </form>

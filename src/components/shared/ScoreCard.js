@@ -1,3 +1,5 @@
+import getScoreMessage from "../../utils/getScoreMessage";
+
 function ScoreCard({ score }) {
     return (
         <div className="card flex-20">
@@ -11,7 +13,9 @@ function ScoreCard({ score }) {
                 <p className="time">Time: {score.time}</p>
                 {/* <p className="total">Total: {score.total}</p> */}
             </div>
-            <div className="card-footer">{score.timestamp ? new Date(score.timestamp.toDate()).toLocaleDateString() : 'Nice one!'}</div>
+            <div className="card-footer">{score.timestamp
+                ? new Date(score.timestamp.toDate()).toLocaleDateString()
+                : getScoreMessage(score.level)}</div>
         </div>
     )
 }

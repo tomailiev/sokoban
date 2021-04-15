@@ -79,6 +79,11 @@ nav ul>li>a {
     letter-spacing: 0.4px;
 }
 
+a.active {
+    color: #7A766F;
+    cursor: text;
+}
+
 .container {
     margin: 0 auto;
 }
