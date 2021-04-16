@@ -19,7 +19,7 @@ function Board() {
     const updateGameState = useCallback((propsToUpdate = {}) => {
         setGameState(prev => ({ ...prev, ...propsToUpdate }));
     }, [setGameState]);
-
+    //initial dynamic objects set
     useEffect(() => {
         if (gameState.level.objects.length) {
             updateGameState({ isComplete: false });

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 import * as themes from '../../themes';
 
-const ThemeSelect = (props) => {
+const ThemeSelect = () => {
 
     const { setGameState } = useContext(GameContext);
 

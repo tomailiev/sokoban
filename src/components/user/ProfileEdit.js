@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 
 const ProfileEdit = ({save, cancel}) => {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [nameValue, setNameValue] = useState(user.displayName);
 
 

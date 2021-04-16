@@ -8,14 +8,14 @@ import Register from './components/user/Register';
 import Login from './components/user/Login';
 import handleLogout from './components/user/Logout';
 import HighScores from './components/HighScores';
-import { getUserData } from './services/user.service';
-import Footer from './components/shared/Footer';
-import WithAuthGuard from './components/shared/WithAuthGuard';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClipLoader from "react-spinners/ClipLoader";
 import BarLoader from 'react-spinners/BarLoader';
 import LoadingContext from './contexts/LoadingContext';
+import { getUserData } from './services/user.service';
+import WithAuthGuard from './components/shared/WithAuthGuard';
+import Footer from './components/shared/Footer';
 
 const Home = React.lazy(() => import('./components/Home'));
 const GameScene = React.lazy(() => import('./components/game/GameScene'));

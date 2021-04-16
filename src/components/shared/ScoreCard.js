@@ -11,7 +11,6 @@ function ScoreCard({ score }) {
                 <h6>Lower is better...</h6>
                 <p className="moves">Moves: {score.moves}</p>
                 <p className="time">Time: {score.time}</p>
-                {/* <p className="total">Total: {score.total}</p> */}
             </div>
             <div className="card-footer">{score.timestamp
                 ? new Date(score.timestamp.toDate()).toLocaleDateString()

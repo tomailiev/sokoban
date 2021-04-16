@@ -1,19 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Board from './Board2';
-import getGameContext from '../../utils/getGameContext';
-import { getSingleLevel } from '../../services/level.service';
 import LevelComplete from './LevelComplete';
 import OptionsController from './OptionsController';
+import initialGameState from '../../config/initialGameState';
 import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
+import LoadingContext from '../../contexts/LoadingContext';
 import { updateUser } from '../../services/user.service';
-import initialGameState from '../../config/initialGameState';
-import { transformToSeconds } from '../../utils/transformToSeconds';
+import { getSingleLevel } from '../../services/level.service';
 import { addHighScore } from '../../services/highScores.service';
-import { toast } from 'react-toastify';
+import getGameContext from '../../utils/getGameContext';
+import { transformToSeconds } from '../../utils/transformToSeconds';
 import createUserScore from '../../utils/createUserScore';
 import createHighScore from '../../utils/createHighScore';
-import LoadingContext from '../../contexts/LoadingContext';
 
 function GameScene() {
     const { user, setUser } = useContext(UserContext);
