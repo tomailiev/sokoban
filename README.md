@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# React project for Softuni
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App created with React front end and making use of Firebase Auth, Firestore, and Hosting. Additional libraries: react-toastify, react-spinners.
+
+# Deployement
+
+The app is deployed at https://sokoban.imperfectweather.com.
+
+# Description
+
+This is an implementation of a game called Sokoban. Originally made in the 1980s this game was a hit in Japan and released in many countries worldwide.
+The game has a simple purpose - to complete all 50 levels by pushing all the objects into storing locations. It's best controlled with the arrow keys on a keyboard but this implementation features a virtual controller and is responsive, making it playable on any device that has a screen.
+
+# User accounts
+
+Only the first level of the game is accessible without creating an account. Accounts can be created with an email and password and optionally a name.
+
+# Scores
+
+The game stores high scores for individual users, as well as globally. The global high scores can be seen by anyone but only a logged in user can see their personal high scores.
 
 ## Available Scripts
 
@@ -31,40 +48,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
