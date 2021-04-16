@@ -2,7 +2,7 @@
 
 App created with React front end and making use of Firebase Auth, Firestore, and Hosting. Additional libraries: react-toastify, react-spinners.
 
-## Deployement
+## Deployment
 
 The app is deployed at https://sokoban.imperfectweather.com.
 
