@@ -80,6 +80,7 @@ function Board() {
     function handleKeyPress(e) {
         const keyPressed = e.key;
         if (!keyParams[keyPressed] || gameState.isComplete) { return; }
+        if (keyPressed === 'u') { updateGameState(keyParams[keyPressed]()); return; }
         if (!gameState.isStarted) {
             updateGameState({ shouldReset: false, isStarted: true });
         }
