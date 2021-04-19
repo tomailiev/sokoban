@@ -14,7 +14,7 @@ const LevelSelect = () => {
     return (
         <select className="button-square" value={gameState.level?.index || 'Select level'} onChange={(e) => changeLevel(Number(e.target.value))}>
             <option value="Select level" disabled>Level...</option>
-            {Array.from(Array(user?.bestLevel)).map((_x, i) => <option key={i + 1} value={i + 1}> Level {i + 1}</option>)}
+            {Array.from(Array(user?.bestLevel)).map((_x, i) => i < 50 && <option key={i + 1} value={i + 1}> Level {i + 1}</option>)}
         </select>
     );
 };
