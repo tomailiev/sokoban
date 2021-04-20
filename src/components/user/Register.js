@@ -32,7 +32,7 @@ function Register({ history }) {
             return;
         }
         if (isInvalid.email || isInvalid.password || isInvalid.repeatPassword) {
-            toast.warn('Please correct the red fields');
+            toast.warn('Please correct the fields above');
             return;
         }
         setHasSubmitted(true);
@@ -65,21 +65,21 @@ function Register({ history }) {
             {!isLoading &&
                 <form onSubmit={handleRegisterFormSubmit}>
                     <div className="form-field">
-                        <label htmlFor="email">Email:</label>
-                        <input className={isInvalid.email && 'invalid'} type="email" id="email" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />                        {isInvalid.email && <p className="validation-error">{isInvalid.email}</p>}
+                        {/* <label htmlFor="email">Email:</label> */}
+                        <input placeholder="Email" className={isInvalid.email && 'invalid'} type="email" id="email" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />                        {isInvalid.email && <p className="validation-error">{isInvalid.email}</p>}
                     </div>
                     <div className="form-field">
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" />
+                        {/* <label htmlFor="name">Name:</label> */}
+                        <input type="text" id="name" placeholder="Name" />
                     </div>
                     <div className="form-field">
-                        <label htmlFor="password">Password:</label>
-                        <input className={isInvalid.password && 'invalid'} type="password" id="password" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />
+                        {/* <label htmlFor="password">Password:</label> */}
+                        <input placeholder="Password" className={isInvalid.password && 'invalid'} type="password" id="password" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />
                         {isInvalid.password && <p className="validation-error">{isInvalid.password}</p>}
                     </div>
                     <div className="form-field">
-                        <label htmlFor="rePassword">Confirm Passsword:</label>
-                        <input className={isInvalid.repeatPassword && 'invalid'} type="password" id="repeatPassword" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />
+                        {/* <label htmlFor="rePassword">Confirm Passsword:</label> */}
+                        <input placeholder="Confirm Password" className={isInvalid.repeatPassword && 'invalid'} type="password" id="repeatPassword" onBlur={validateOnBlur} onFocus={removeInvalidOnFocus} />
                         {isInvalid.repeatPassword && <p className="validation-error">{isInvalid.repeatPassword}</p>}
                     </div>
                     <div className="form-field">

@@ -7,12 +7,12 @@ html {
     height: 100%;
 }
 
-* *::before, *::after {
+*, *::before, *::after {
     box-sizing: inherit;
 }
 
 body {
-    font-family: Helvetica, sans-serif;
+    font-family: Lato, sans-serif;
     height: 100%;
     background: #FFF3CB;
 }
@@ -78,6 +78,8 @@ nav ul>li>a {
     font-weight: 600;
     letter-spacing: 0.4px;
 }
+
+
 
 a.active {
     color: #7A766F;
@@ -297,7 +299,7 @@ select::after {
     border-radius: 12px;
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 .form-wrapper form label {
@@ -305,12 +307,13 @@ select::after {
 }
 
 .form-wrapper form input.invalid {
-    border: 1px solid red;
+    -webkit-box-shadow: 0px 0px 3px 3px rgba(255, 0, 0, 0.92);
+    box-shadow: 0px 0px 3px 3px rgba(255, 0, 0, 0.92);
 }
 
 .form-field {
     position: relative;
-    margin-bottom: 1.6rem;
+    margin-top: 1.6rem;
 }
 
 .form-field .validation-error {
@@ -322,8 +325,24 @@ select::after {
     margin: 0;
 }
 
+input:not([type="submit"]) {
+    border: none;
+    border-radius: 2px;
+    height: 26px;
+    /* min-width: 150px; */
+    -webkit-box-shadow: 2px 2px 6px 1px #000000;
+    box-shadow: 2px 2px 6px 1px #000000;
+    padding-left: 11px;
+    margin-right: 8px;
+}
+
+.form-field input {
+    width: 155px;
+}
+
 .form-field input[type="submit"] {
-    margin: 10px;
+    margin: 10px 0;
+    /* min-width: 155px; */
 }
 
 @media screen and (max-width:768px) {
