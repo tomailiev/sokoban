@@ -3,6 +3,7 @@ import player from '../assets/pixelated/player.png';
 import path from '../assets/pixelated/path.jpg';
 import goal from '../assets/pixelated/goal.png';
 import brick from '../assets/pixelated/brick.png';
+import empty from '../assets/empty.png';
 
 const pixelatedPics = {
     box,
@@ -10,6 +11,7 @@ const pixelatedPics = {
     path,
     goal,
     brick,
+    empty,
     name: 'Pixelated'
 }
 

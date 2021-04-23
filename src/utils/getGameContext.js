@@ -5,6 +5,7 @@ const legend = {
     '#': (pos) => ({ type: 'brick', static: true, id: `brick${pos}`, position: pos }),
     ' ': (pos) => ({ type: 'path', static: true, id: `path${pos}`, position: pos }),
     '.': (pos) => ({ type: 'goal', static: true, id: `goal${pos}`, position: pos }),
+    '_': (pos) => ({ type: 'empty', static: true, id: `empty${pos}`, position: pos }),
     //non-static
     '@': (pos) => ({ type: 'player', static: false, id: `player1`, position: pos, onGoal: false }),
     '+': (pos) => ({ type: 'player', static: false, id: `player1`, position: pos, onGoal: true }),
@@ -17,7 +18,8 @@ const positionValues = {
     player: (obj) => obj.onGoal ? 'goal' : 'path',
     box: (obj) => obj.onGoal ? 'goal' : 'path',
     path: () => 'path',
-    goal: () => 'goal' 
+    goal: () => 'goal',
+    empty: () => 'empty'
 };
 
 function getGameContext(arr = []) {

@@ -3,6 +3,8 @@ import player from '../assets/biohazard/mover.png';
 import path from '../assets/biohazard/ground.bmp';
 import goal from '../assets/biohazard/store.bmp';
 import brick from '../assets/biohazard/wall.bmp';
+import empty from '../assets/empty.png';
+
 
 const biohazardPics = {
     box,
@@ -10,6 +12,7 @@ const biohazardPics = {
     path,
     goal,
     brick,
+    empty,
     name: 'Biohazard'
 }
 
