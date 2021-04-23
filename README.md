@@ -1,4 +1,4 @@
-# React project for Softuni
+# React Sokoban
 
 App created with React front end and making use of Firebase Auth, Firestore, and Hosting. Additional libraries: react-toastify, react-spinners.
 
