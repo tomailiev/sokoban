@@ -2,6 +2,7 @@ import getGameContext from "../utils/getGameContext";
 
 const initialGameState = {
     level: { positions: {}, objects: [], longest: 20 },
+    currentObjects: [],
     isStarted: false,
     isComplete: false,
     isGameDone: false,
@@ -39,12 +40,14 @@ const reducer = (state, action) => {
         case 'toggleController':
             return { ...state, hasVisualController: !state.hasVisualController };
         case 'setLevel':
+            const level = getGameContext(action.payload.legend);
             return {
                 ...state,
-                level: Object.assign(action.payload, getGameContext(action.payload.legend)),
+                level: Object.assign(action.payload, level),
                 isComplete: false,
                 shouldReset: true,
-                moves: 0
+                moves: 0,
+                currentObjects: level.objects
             };
         case 'changeTheme':
             return { ...state, theme: action.payload };

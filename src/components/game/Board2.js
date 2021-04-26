@@ -11,7 +11,6 @@ import Timer from "./Timer";
 import MovesCounter from "./MovesCounter";
 
 function Board() {
-
     const { gameState, dispatch } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
     const [pauseMessage, setPauseMessage] = useState('Select level above');
