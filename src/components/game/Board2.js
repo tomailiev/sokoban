@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import keyParams from '../../config/keyParams';
 import getPosition from "../../utils/getPosition";
 import setPosition from "../../utils/setPosition";
@@ -12,37 +12,32 @@ import MovesCounter from "./MovesCounter";
 
 function Board() {
 
-    const { gameState, setGameState } = useContext(GameContext);
+    const { gameState, dispatch } = useContext(GameContext);
     const [objects, setObjects] = useState([]);
     const [pauseMessage, setPauseMessage] = useState('Select level above');
     const [squareSize] = useResize(gameState.level.longest);
-    const updateGameState = useCallback((propsToUpdate = {}) => {
-        setGameState(prev => ({ ...prev, ...propsToUpdate }));
-    }, [setGameState]);
-    //initial dynamic objects set
     useEffect(() => {
         if (gameState.level.objects.length) {
-            updateGameState({ isComplete: false });
+            dispatch({ type: 'ready' })
             setObjects(gameState.level.objects);
             setPauseMessage('Click to play!')
         }
         if (gameState.shouldReset) {
-            updateGameState({ shouldReset: false, isStarted: false });
+            dispatch({ type: 'reset' })
         }
-    }, [gameState.level.objects, gameState.shouldReset, updateGameState]);
-    // undo functionality
+    }, [gameState.level.objects, gameState.shouldReset, dispatch]);
     useEffect(() => {
         if (gameState.undo) {
-            updateGameState({ undo: false });
+            dispatch({ type: 'toggleUndo' });
             if (gameState.undoneObject.length) {
                 setObjects(gameState.undoneObject);
-                updateGameState({ moves: gameState.moves + 1, undoneObject: [] });
+                dispatch({ type: 'executeUndo' });
             }
         }
-    }, [gameState.undo, gameState.undoneObject, updateGameState, gameState.moves]);
+    }, [gameState.undo, gameState.undoneObject, dispatch, gameState.moves]);
 
     function updatePositions(object = {}, newPosition = []) {
-        updateGameState({ undoneObject: objects });
+        dispatch({ type: 'setUndo', payload: objects });
         setObjects(prev => (prev.map(x => x.id !== object.id
             ? x
             : {
@@ -67,22 +62,18 @@ function Board() {
             }
         }
         updatePositions(player, newPlayerPosition);
-        updateGameState({ moves: gameState.moves + 1 });
+        dispatch({ type: 'move' });
         if (isGameOver) {
-            updateGameState(
-                gameState.level.index === 50
-                    ? { isComplete: true, isStarted: false, isGameDone: true, }
-                    : { isComplete: true, isStarted: false, }
-            );
+            dispatch({ type: 'completeLevel' });
         }
     }
 
     function handleKeyPress(e) {
         const keyPressed = e.key;
         if (!keyParams[keyPressed] || gameState.isComplete) { return; }
-        if (keyPressed === 'u') { updateGameState(keyParams[keyPressed]()); return; }
+        if (keyPressed === 'u') { dispatch({ type: 'toggleUndo' }); return; }
         if (!gameState.isStarted) {
-            updateGameState({ shouldReset: false, isStarted: true });
+            dispatch({ type: 'startGame' });
         }
         const player = objects.find(x => x.id === 'player1');
         handleMove(player, ...keyParams[keyPressed](...getPosition(player.position)));

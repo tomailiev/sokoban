@@ -3,11 +3,11 @@ import GameContext from "../../contexts/GameContext";
 
 function Timer() {
 
-    const { gameState, setGameState } = useContext(GameContext);
+    const { gameState, dispatch } = useContext(GameContext);
 
     useEffect(() => {
         if (gameState.shouldReset) {
-            setGameState(prev => ({...prev, time: '0:00'}));
+            dispatch({ type: 'setTimer', payload: '0:00' });
         }
         let interval;
         if (gameState.isStarted) {
@@ -20,14 +20,14 @@ function Timer() {
                     secs++;
                 }
                 const newTime = `${mins}:${secs < 10 ? `0${secs}` : secs}`;
-                setGameState(prev => ({...prev, time: newTime}));
+                dispatch({ type: 'setTimer', payload: newTime });
             }, 1000);
         } else {
             clearInterval(interval);
         }
 
         return () => clearInterval(interval);
-    }, [gameState.shouldReset, gameState.isStarted, gameState.time, setGameState]);
+    }, [gameState.shouldReset, gameState.isStarted, gameState.time, dispatch]);
 
     return (
         <div className="button-no-action">{gameState.time}</div>

@@ -1,16 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { toast } from 'react-toastify';
 import Board from './Board2';
 import LevelComplete from './LevelComplete';
 import OptionsController from './OptionsController';
-import initialGameState from '../../config/initialGameState';
+import { initialGameState, reducer } from '../../config/initialGameState';
 import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
 import LoadingContext from '../../contexts/LoadingContext';
 import { updateUser } from '../../services/user.service';
 import { getSingleLevel } from '../../services/level.service';
 import { addHighScore } from '../../services/highScores.service';
-import getGameContext from '../../utils/getGameContext';
 import { transformToSeconds } from '../../utils/transformToSeconds';
 import createUserScore from '../../utils/createUserScore';
 import createHighScore from '../../utils/createHighScore';
@@ -18,7 +17,7 @@ import createHighScore from '../../utils/createHighScore';
 function GameScene() {
     const { user, setUser } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const [gameState, setGameState] = useState({ ...initialGameState, getLevel });
+    const [gameState, dispatch] = useReducer(reducer, { ...initialGameState, getLevel });
 
     useEffect(() => {
         if (gameState.isComplete) {
@@ -54,13 +53,7 @@ function GameScene() {
         setIsLoading(true);
         return getSingleLevel(value)
             .then(level => {
-                setGameState(prev => ({
-                    ...prev,
-                    level: Object.assign(level, getGameContext(level.legend)),
-                    isComplete: false,
-                    shouldReset: true,
-                    moves: 0
-                }));
+                dispatch({type: 'setLevel', payload: level});
                 setIsLoading(false);
             })
             .catch((e) => {
@@ -70,7 +63,7 @@ function GameScene() {
     }
 
     return (
-        <GameContext.Provider value={{ gameState, setGameState }}>
+        <GameContext.Provider value={{ gameState, dispatch }}>
             <OptionsController />
             {!isLoading && <Board />}
             {gameState.isComplete

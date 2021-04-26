@@ -2,10 +2,10 @@ import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 
 const ResetButton = () => {
-    const { gameState, setGameState } = useContext(GameContext);
+    const { gameState, dispatch } = useContext(GameContext);
 
     function handleReset() {
-        setGameState(prev => ({...prev, shouldReset: true, moves: 0}));
+        dispatch({ type: 'initReset' });
     }
 
     return (

@@ -2,10 +2,10 @@ import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 
 const ControllerToggle = () => {
-    const { gameState, setGameState } = useContext(GameContext);
+    const { gameState, dispatch } = useContext(GameContext);
 
     function toggleVisualController() {
-        setGameState(prev => ({ ...prev, hasVisualController: !prev.hasVisualController }));
+        dispatch({ type: 'toggleController' });
     }
 
     return (
