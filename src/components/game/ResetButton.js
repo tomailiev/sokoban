@@ -5,7 +5,7 @@ const ResetButton = () => {
     const { gameState, dispatch } = useContext(GameContext);
 
     function handleReset() {
-        dispatch({ type: 'initReset' });
+        dispatch({ type: 'reset' });
     }
 
     return (

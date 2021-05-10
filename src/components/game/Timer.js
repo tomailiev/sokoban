@@ -6,9 +6,6 @@ function Timer() {
     const { gameState, dispatch } = useContext(GameContext);
 
     useEffect(() => {
-        if (gameState.shouldReset) {
-            dispatch({ type: 'setTimer', payload: '0:00' });
-        }
         let interval;
         if (gameState.isStarted) {
             interval = setInterval(() => {
@@ -27,7 +24,7 @@ function Timer() {
         }
 
         return () => clearInterval(interval);
-    }, [gameState.shouldReset, gameState.isStarted, gameState.time, dispatch]);
+    }, [gameState.isStarted, gameState.time, dispatch]);
 
     return (
         <div className="button-no-action">{gameState.time}</div>

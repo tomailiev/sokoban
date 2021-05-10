@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import keyParams from '../../config/keyParams';
 import getPosition from "../../utils/getPosition";
 import setPosition from "../../utils/setPosition";
@@ -12,56 +12,28 @@ import MovesCounter from "./MovesCounter";
 
 function Board() {
     const { gameState, dispatch } = useContext(GameContext);
-    const [objects, setObjects] = useState([]);
-    const [pauseMessage, setPauseMessage] = useState('Select level above');
     const [squareSize] = useResize(gameState.level.longest);
-    useEffect(() => {
-        if (gameState.level.objects.length) {
-            dispatch({ type: 'ready' })
-            setObjects(gameState.level.objects);
-            setPauseMessage('Click to play!')
-        }
-        if (gameState.shouldReset) {
-            dispatch({ type: 'reset' })
-        }
-    }, [gameState.level.objects, gameState.shouldReset, dispatch]);
-    useEffect(() => {
-        if (gameState.undo) {
-            dispatch({ type: 'toggleUndo' });
-            if (gameState.undoneObject.length) {
-                setObjects(gameState.undoneObject);
-                dispatch({ type: 'executeUndo' });
-            }
-        }
-    }, [gameState.undo, gameState.undoneObject, dispatch, gameState.moves]);
 
-    function updatePositions(object = {}, newPosition = []) {
-        dispatch({ type: 'setUndo', payload: objects });
-        setObjects(prev => (prev.map(x => x.id !== object.id
-            ? x
-            : {
-                ...x,
-                position: newPosition,
-                onGoal: gameState.level.positions[newPosition] === 'goal'
-            }
-        )));
+    function updatePositions(object = {}, newPosition = [], isBox) {
+        dispatch({ type: 'playerMove', payload: { object, newPosition, isBox } })
     }
 
     function handleMove(player, newPlayerCoord, newBoxCoord) {
         let isGameOver = false;
+        let isBox = false;
         const newPlayerPosition = setPosition(...newPlayerCoord);
         if (!gameState.level.positions[newPlayerPosition]) { return; }
-        if (objects.find(x => x.position === newPlayerPosition)) {
+        if (gameState.currentObjects.find(x => x.position === newPlayerPosition)) {
             const newBoxPosition = setPosition(...newBoxCoord);
-            const box = objects.find(x => x.position === newPlayerPosition);
-            if (!gameState.level.positions[newBoxPosition] || objects.find(x => x.position === newBoxPosition)) { return; }
-            updatePositions(box, newBoxPosition);
+            const box = gameState.currentObjects.find(x => x.position === newPlayerPosition);
+            if (!gameState.level.positions[newBoxPosition] || gameState.currentObjects.find(x => x.position === newBoxPosition)) { return; }
+            updatePositions(box, newBoxPosition, isBox);
+            isBox = true;
             if (gameState.level.positions[newBoxPosition] === 'goal') {
-                isGameOver = !(objects.filter(x => x.id !== 'player1' && x.id !== box.id && !x.onGoal)).length;
+                isGameOver = !(gameState.currentObjects.filter(x => x.id !== 'player1' && x.id !== box.id && !x.onGoal)).length;
             }
         }
-        updatePositions(player, newPlayerPosition);
-        dispatch({ type: 'move' });
+        updatePositions(player, newPlayerPosition, isBox);
         if (isGameOver) {
             dispatch({ type: 'completeLevel' });
         }
@@ -69,12 +41,13 @@ function Board() {
 
     function handleKeyPress(e) {
         const keyPressed = e.key;
+        if (keyPressed === 'u') { dispatch({ type: 'undo' }); return; }
+        if (keyPressed === 'r') { dispatch({ type: 'reset' }); return; }
         if (!keyParams[keyPressed] || gameState.isComplete) { return; }
-        if (keyPressed === 'u') { dispatch({ type: 'toggleUndo' }); return; }
         if (!gameState.isStarted) {
             dispatch({ type: 'startGame' });
         }
-        const player = objects.find(x => x.id === 'player1');
+        const player = gameState.currentObjects.find(x => x.id === 'player1');
         handleMove(player, ...keyParams[keyPressed](...getPosition(player.position)));
     }
 
@@ -85,14 +58,14 @@ function Board() {
                 style={boardWrapperStyle(gameState.level.longest, gameState.level.legend?.length, squareSize)}
                 tabIndex="-1"
                 onKeyDown={handleKeyPress}
-                onFocus={() => setPauseMessage('')}
-                onBlur={() => setPauseMessage(gameState.level.legend ? 'Click here to return to the game' : 'Select level above')}
+                onFocus={() => dispatch({type: 'setMessage', payload: ''})}
+                onBlur={() => dispatch({type: 'setMessage', payload: gameState.level.legend ? 'Click here to return to the game' : 'Select level above'})}
             >
-                {pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{pauseMessage}</div> : null}
+                {gameState.pauseMessage && !gameState.hasVisualController ? <div style={pauseMessageStyle} className="button-oval">{gameState.pauseMessage}</div> : null}
                 {Object.entries(gameState.level.positions).map(([key, val]) => {
                     return <img style={singleSquareStyle({ position: key, type: val }, squareSize)} src={val ? themes[gameState.theme || 'defaultPics'][val] : themes[gameState.theme || 'defaultPics']['brick']} key={key} alt="" />;
                 })}
-                {objects.map(x => {
+                {gameState.currentObjects.map(x => {
                     return <img style={singleSquareStyle(x, squareSize)} src={themes[gameState.theme || 'defaultPics'][x.type]} key={x.id} alt="" />;
                 })}
             </div>

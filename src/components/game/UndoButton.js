@@ -6,7 +6,7 @@ const UndoButton = () => {
     const { gameState, dispatch } = useContext(GameContext);
 
     return (
-        <button disabled={!gameState.undoneObject.length || !gameState.isStarted} className="button-square" onClick={() =>/*reduced toggleUndo */ dispatch({ type: 'toggleUndo' })}><i className="fas fa-undo"></i></button>
+        <button disabled={!gameState.undoneObject.length || !gameState.isStarted} className="button-square" onClick={() =>dispatch({ type: 'undo' })}><i className="fas fa-undo"></i></button>
     );
 };
 

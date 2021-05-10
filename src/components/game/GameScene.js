@@ -3,7 +3,8 @@ import { toast } from 'react-toastify';
 import Board from './Board2';
 import LevelComplete from './LevelComplete';
 import OptionsController from './OptionsController';
-import { initialGameState, reducer } from '../../config/initialGameState';
+import initialGameState from '../../config/initialGameState';
+import reducer from '../../config/reducer'
 import GameContext from '../../contexts/GameContext';
 import UserContext from '../../contexts/UserContext';
 import LoadingContext from '../../contexts/LoadingContext';
