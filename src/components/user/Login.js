@@ -71,7 +71,7 @@ function Login({ history }) {
                     <p>
                         No account? <Link to="/register">Register</Link> instead
                     </p>
-                    <p onClick={() => setHasModal(true)}>Reset password?</p>
+                    <p style={{marginTop: 0, cursor: 'pointer', textDecoration: 'underline'}} onClick={() => setHasModal(true)}>Reset password?</p>
                     {hasModal && <PasswordResetModal close={() => setHasModal(false)} />}
                 </form>
             }
