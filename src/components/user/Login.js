@@ -1,13 +1,16 @@
 import SquareLoader from 'react-spinners/SquareLoader';
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom'
 import { auth } from '../../utils/firebase';
 import { toast } from 'react-toastify';
 import validations from '../../utils/validators';
 import LoadingContext from '../../contexts/LoadingContext';
+import PasswordResetModal from './PasswordResetModal';
 
 function Login({ history }) {
     const { isLoading } = useContext(LoadingContext);
     const [isInvalid, setIsInvalid] = useState({ email: null, password: null });
+    const [hasModal, setHasModal] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     function handleRegisterFormSubmit(e) {
@@ -65,6 +68,11 @@ function Login({ history }) {
                             ? <SquareLoader color="coral" size={50} />
                             : <input type="submit" value="Login" className="button-square" />}
                     </div>
+                    <p>
+                        No account? <Link to="/register">Register</Link> instead
+                    </p>
+                    <p onClick={() => setHasModal(true)}>Reset password?</p>
+                    {hasModal && <PasswordResetModal close={() => setHasModal(false)} />}
                 </form>
             }
         </div>

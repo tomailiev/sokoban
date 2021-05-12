@@ -72,7 +72,7 @@ function App() {
           </main>
           <Footer />
           <ClipLoader color="orange" size={90} loading={isLoading} />
-          <ToastContainer autoClose={1500} hideProgressBar={true} pauseOnFocusLoss={false} transition={Slide} />
+          <ToastContainer autoClose={2000} hideProgressBar={true} pauseOnFocusLoss={false} transition={Slide} />
         </LoadingContext.Provider>
       </UserContext.Provider>
     </div>

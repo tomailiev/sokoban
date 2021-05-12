@@ -2,6 +2,7 @@ import { auth } from '../../utils/firebase';
 import SquareLoader from 'react-spinners/SquareLoader';
 import { createUser } from '../../services/user.service';
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import validations from '../../utils/validators';
 import LoadingContext from '../../contexts/LoadingContext';
@@ -87,6 +88,9 @@ function Register({ history }) {
                             ? <SquareLoader color="coral" size={50} />
                             : <input className="button-square" type="submit" value="Register" />}
                     </div>
+                    <p>
+                        Already registered? <Link to="/login">Login</Link> instead
+                    </p>
                 </form>
             }
         </div>
