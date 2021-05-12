@@ -8,6 +8,10 @@ import empty from '../assets/empty.png';
 const windowsPics = {
     box,
     player,
+    player_up: player,
+    player_down: player,
+    player_left: player,
+    player_right: player,
     path,
     goal,
     brick,

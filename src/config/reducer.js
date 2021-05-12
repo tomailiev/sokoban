@@ -46,6 +46,12 @@ const reducer = (state, action) => {
                     }
                 )
             };
+        case 'changePlayerPic':
+            const direction = action.payload.substring(5).toLowerCase();
+            return {
+                ...state,
+                currentObjects: state.currentObjects.map(x => x.id === 'player1' ? { ...x, type: `player_${direction}` } : x)
+            };
         case 'setMessage':
             return { ...state, pauseMessage: action.payload };
         default:

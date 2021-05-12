@@ -44,6 +44,7 @@ function Board() {
         if (keyPressed === 'u') { dispatch({ type: 'undo' }); return; }
         if (keyPressed === 'r') { dispatch({ type: 'reset' }); return; }
         if (!keyParams[keyPressed] || gameState.isComplete) { return; }
+        dispatch({type: 'changePlayerPic', payload: keyPressed});
         if (!gameState.isStarted) {
             dispatch({ type: 'startGame' });
         }
