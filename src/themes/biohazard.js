@@ -21,7 +21,8 @@ const biohazardPics = {
     goal,
     brick,
     empty,
-    name: 'Biohazard'
+    name: 'Biohazard',
+    index: 5,
 }
 
 export default biohazardPics;

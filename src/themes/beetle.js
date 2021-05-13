@@ -20,7 +20,8 @@ const beetlePics = {
     goal,
     brick,
     empty,
-    name: 'Beetle'
+    name: 'Beetle',
+    index: 6,
 }
 
 export default beetlePics;

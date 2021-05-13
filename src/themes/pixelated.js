@@ -16,7 +16,8 @@ const pixelatedPics = {
     goal,
     brick,
     empty,
-    name: 'Pixelated'
+    name: 'Pixelated',
+    index: 2
 }
 
 export default pixelatedPics;

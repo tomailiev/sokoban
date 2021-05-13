@@ -16,7 +16,8 @@ const defaultPics = {
     goal,
     brick,
     empty,
-    name: 'Default'
+    name: 'Default',
+    index: 1
 }
 
 export default defaultPics;

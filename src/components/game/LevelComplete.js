@@ -12,6 +12,7 @@ function LevelComplete() {
 
     const levelCompleteMessage = 'Level Complete!';
     const gameCompleteMessage = 'Congrats! You beat Sokoban.';
+    const themeUnlockedMessage = 'New theme unlocked!';
 
     useEffect(() => {
         setAnimating(true);
@@ -31,9 +32,10 @@ function LevelComplete() {
             onAnimationEnd={() => setAnimating(false)}
         >
             <h2>{gameState.isGameDone ? gameCompleteMessage : levelCompleteMessage}</h2>
+            {gameState.level.index % 5 === 0 && <h6>{themeUnlockedMessage}</h6>}
             {!user.id
                 ? (<div>
-                    <p>Login or Register to play the rest of the levels, save your progress and more!</p>
+                    <p>Login or Register to play the rest of the levels, unlock themes and more!</p>
                     <Link className="button-square" to="/login">Login</Link>
                     <Link className="button-square" to="/register">Register</Link>
                 </div>)

@@ -21,7 +21,8 @@ const zombiePics = {
     goal,
     brick,
     empty,
-    name: 'Zombie'
+    name: 'Zombie',
+    index: 7,
 }
 
 export default zombiePics;

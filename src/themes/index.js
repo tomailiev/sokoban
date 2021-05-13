@@ -5,6 +5,7 @@ import windowsPics from './windows';
 import biohazardPics from './biohazard';
 import beetlePics from './beetle';
 import zombiePics from './zombie';
+import lunarPics from './lunar';
 
 
-export { defaultPics, pixelatedPics, dinoPics, windowsPics, biohazardPics, beetlePics, zombiePics };
+export { defaultPics, pixelatedPics, dinoPics, windowsPics, biohazardPics, beetlePics, zombiePics, lunarPics };

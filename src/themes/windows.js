@@ -16,7 +16,8 @@ const windowsPics = {
     goal,
     brick,
     empty,
-    name: 'Windows'
+    name: 'Windows',
+    index: 4,
 }
 
 export default windowsPics;

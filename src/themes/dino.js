@@ -16,7 +16,8 @@ const dinoPics = {
     goal,
     brick,
     empty,
-    name: 'Dino'
+    name: 'Dino',
+    index: 3,
 }
 
 export default dinoPics;
