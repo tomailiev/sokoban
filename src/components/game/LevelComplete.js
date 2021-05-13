@@ -32,7 +32,7 @@ function LevelComplete() {
             onAnimationEnd={() => setAnimating(false)}
         >
             <h2>{gameState.isGameDone ? gameCompleteMessage : levelCompleteMessage}</h2>
-            {gameState.level.index % 5 === 0 && <h6>{themeUnlockedMessage}</h6>}
+            {gameState.level.index % 5 === 0 && user.bestLevel <= gameState.level.index +1 && <p>{themeUnlockedMessage}</p>}
             {!user.id
                 ? (<div>
                     <p>Login or Register to play the rest of the levels, unlock themes and more!</p>
