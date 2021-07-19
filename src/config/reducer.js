@@ -1,10 +1,13 @@
 import getGameContext from "../utils/getGameContext";
+import { triggerLevelCompleteSound, triggerStartSound, triggerUndoSound } from '../utils/tone';
 
 const reducer = (state, action) => {
     switch (action.type) {
         case 'startGame':
+            triggerStartSound();
             return { ...state, isStarted: true };
         case 'completeLevel':
+            triggerLevelCompleteSound();
             return state.level.index === 50
                 ? { ...state, isComplete: true, isStarted: false, isGameDone: true }
                 : { ...state, isComplete: true, isStarted: false };
@@ -18,6 +21,8 @@ const reducer = (state, action) => {
                 ...state,
                 level: Object.assign(action.payload, level),
                 isComplete: false,
+                isStarted: false,
+                time: '0:00',
                 moves: 0,
                 currentObjects: level.objects,
                 pauseMessage: 'Click to play!'
@@ -27,6 +32,7 @@ const reducer = (state, action) => {
         case 'setTimer':
             return { ...state, time: action.payload };
         case 'undo':
+            triggerUndoSound();
             const lastUndone = state.undoneObject.slice();
             return lastUndone.length
                 ? { ...state, currentObjects: lastUndone, moves: state.moves + 1, undoneObject: [] }
